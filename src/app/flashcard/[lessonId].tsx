@@ -103,7 +103,7 @@ export default function FlashcardScreen() {
                 contentContainerStyle={{ gap: 10 }}
                 showsVerticalScrollIndicator={false}
               >
-                <Text style={[t.font.eyebrow, { color: t.colors.fgMute }]}>Betekenis</Text>
+                <Text style={[t.font.eyebrow, { color: t.colors.caramel2 }]}>Betekenis</Text>
                 <Text style={[t.font.title, { color: t.colors.fg }]}>{phrase?.en}</Text>
                 <Text style={[t.font.body, { color: t.colors.fgDim }]}>{phrase?.note}</Text>
                 <View style={{
@@ -111,7 +111,7 @@ export default function FlashcardScreen() {
                   backgroundColor: t.colors.bg2,
                   borderWidth: 1, borderColor: t.colors.line,
                 }}>
-                  <Text style={[t.font.eyebrow, { color: t.colors.fgMute, marginBottom: 4 }]}>Voorbeeld</Text>
+                  <Text style={[t.font.eyebrow, { color: t.colors.caramel2, marginBottom: 4 }]}>Voorbeeld</Text>
                   <Text style={[t.font.body, { color: t.colors.fg, fontFamily: t.font.family.medium }]}>
                     {phrase?.example.nl}
                   </Text>
