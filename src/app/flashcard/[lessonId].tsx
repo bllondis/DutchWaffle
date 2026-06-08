@@ -86,15 +86,28 @@ export default function FlashcardScreen() {
           }
           back={
             <>
+              {/* Top row: EN chip + counter */}
               <View style={styles.row}>
                 <Chip>EN</Chip>
-                <Text style={[t.font.meta, { color: t.colors.fgMute, fontVariant: ['tabular-nums'] }]}>{idx + 1}/{total}</Text>
+                <Text style={[t.font.meta, { color: t.colors.fgMute, fontVariant: ['tabular-nums'] }]}>
+                  {idx + 1}/{total}
+                </Text>
               </View>
-              <ScrollView contentContainerStyle={{ gap: 10 }} showsVerticalScrollIndicator={false}>
+
+              {/* Scrollable content — flex:1 ensures it fills space between chip and hint */}
+              <ScrollView
+                style={{ flex: 1, marginTop: t.spacing._4 }}
+                contentContainerStyle={{ gap: 10 }}
+                showsVerticalScrollIndicator={false}
+              >
                 <Text style={[t.font.eyebrow, { color: t.colors.fgMute }]}>Betekenis</Text>
                 <Text style={[t.font.title, { color: t.colors.fg }]}>{phrase?.en}</Text>
                 <Text style={[t.font.body, { color: t.colors.fgDim }]}>{phrase?.note}</Text>
-                <View style={{ padding: 12, borderRadius: 12, backgroundColor: t.colors.bg2, borderWidth: 1, borderColor: t.colors.line }}>
+                <View style={{
+                  padding: 12, borderRadius: 12,
+                  backgroundColor: t.colors.bg2,
+                  borderWidth: 1, borderColor: t.colors.line,
+                }}>
                   <Text style={[t.font.eyebrow, { color: t.colors.fgMute, marginBottom: 4 }]}>Voorbeeld</Text>
                   <Text style={[t.font.body, { color: t.colors.fg, fontFamily: t.font.family.medium }]}>
                     {phrase?.example.nl}
@@ -104,7 +117,12 @@ export default function FlashcardScreen() {
                   </Text>
                 </View>
               </ScrollView>
-              <Text style={[t.font.meta, { color: t.colors.fgMute }]}>Tik om terug te draaien</Text>
+
+              {/* Bottom hint with flip icon */}
+              <View style={styles.hintRow}>
+                <Text style={[t.font.meta, { color: t.colors.fgMute }]}>↩</Text>
+                <Text style={[t.font.meta, { color: t.colors.fgMute }]}>Tik om terug te draaien</Text>
+              </View>
             </>
           }
         />
@@ -128,4 +146,5 @@ const styles = StyleSheet.create({
   iconBtn: { width: 40, height: 40, borderRadius: 999, alignItems: 'center', justifyContent: 'center', borderWidth: 1 },
   row:     { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   footer:  { flexDirection: 'row', gap: 10, paddingVertical: 20 },
+  hintRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
 });
