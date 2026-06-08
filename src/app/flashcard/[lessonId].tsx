@@ -107,7 +107,7 @@ export default function FlashcardScreen() {
                 <Text style={[t.font.title, { color: t.colors.fg }]}>{phrase?.en}</Text>
                 <Text style={[t.font.body, { color: t.colors.fgDim }]}>{phrase?.note}</Text>
                 <View style={{
-                  padding: 12, borderRadius: 12,
+                  padding: 12, borderRadius: 12, marginTop: 8,
                   backgroundColor: t.colors.bg2,
                   borderWidth: 1, borderColor: t.colors.line,
                 }}>
