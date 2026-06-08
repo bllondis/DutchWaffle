@@ -81,7 +81,10 @@ export default function FlashcardScreen() {
                 <Text style={[t.font.phrase, { color: t.colors.fg }]}>{phrase?.nl}</Text>
                 <Text style={{ fontFamily: 'Menlo', fontSize: 12, color: t.colors.fgMute }}>{phrase?.ipa}</Text>
               </View>
-              <Text style={[t.font.meta, { color: t.colors.fgMute }]}>Tik om te draaien</Text>
+              <View style={styles.hintRow}>
+                <Text style={[t.font.meta, { color: t.colors.fgMute }]}>↩</Text>
+                <Text style={[t.font.meta, { color: t.colors.fgMute }]}>Tik om te draaien</Text>
+              </View>
             </>
           }
           back={
@@ -104,9 +107,12 @@ export default function FlashcardScreen() {
                 <Text style={[t.font.title, { color: t.colors.fg }]}>{phrase?.en}</Text>
                 <Text style={[t.font.body, { color: t.colors.fgDim }]}>{phrase?.note}</Text>
                 <View style={{
-                  padding: 12, borderRadius: 12,
+                  paddingVertical: 12, paddingRight: 12, paddingLeft: 0,
+                  borderRadius: 12,
                   backgroundColor: t.colors.bg2,
                   borderWidth: 1, borderColor: t.colors.line,
+                  // left border accent to visually mark the example block
+                  borderLeftWidth: 3, borderLeftColor: t.colors.accent,
                 }}>
                   <Text style={[t.font.eyebrow, { color: t.colors.fgMute, marginBottom: 4 }]}>Voorbeeld</Text>
                   <Text style={[t.font.body, { color: t.colors.fg, fontFamily: t.font.family.medium }]}>
