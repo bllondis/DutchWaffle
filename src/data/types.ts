@@ -1,4 +1,4 @@
-export type Level = { id: 'b1' | 'b1plus' | 'b2'; code: string; name: string; tagline: string };
+export type Level = { id: 'b1' | 'b1plus' | 'b2'; code: string; name: string; tagline: string; done: number; total: number };
 
 export type Theme = { id: string; name: string; en: string };
 

@@ -1,9 +1,9 @@
 import type { Level, Theme } from './types';
 
 export const mockLevels: Level[] = [
-  { id: 'b1',     code: 'B1',  name: 'Onderweg',    tagline: 'Fluent essentials' },
-  { id: 'b1plus', code: 'B1+', name: 'Op niveau',   tagline: 'Bridging register' },
-  { id: 'b2',     code: 'B2',  name: 'Doorstromen', tagline: 'Nuanced & confident' },
+  { id: 'b1',     code: 'B1',  name: 'Onderweg',    tagline: 'Fluent essentials',   done: 4,  total: 12 },
+  { id: 'b1plus', code: 'B1+', name: 'Op niveau',   tagline: 'Bridging register',   done: 2,  total: 16 },
+  { id: 'b2',     code: 'B2',  name: 'Doorstromen', tagline: 'Nuanced & confident', done: 0,  total: 14 },
 ];
 
 export const mockThemes: Theme[] = [
