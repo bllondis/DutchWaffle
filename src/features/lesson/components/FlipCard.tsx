@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, ViewStyle } from 'react-native';
 import Animated, {
-  useSharedValue, useAnimatedStyle, withTiming, Easing,
+  useSharedValue, useAnimatedStyle, withTiming, Easing, interpolate, Extrapolation,
 } from 'react-native-reanimated';
 import { useTheme } from '@/theme/useTheme';
 
@@ -29,19 +29,22 @@ export default function FlipCard({ flipped, onPress, front, back, style }: Props
     });
   }, [flipped]);
 
+  // Cross-platform flip: opacity switches at 90° so neither face bleeds through.
+  // This replaces relying on backfaceVisibility (unreliable on web / Android).
   const frontAnimStyle = useAnimatedStyle(() => ({
     transform: [{ perspective: 1200 }, { rotateY: `${rot.value}deg` }],
+    opacity: interpolate(rot.value, [89, 90], [1, 0], Extrapolation.CLAMP),
   }));
 
   const backAnimStyle = useAnimatedStyle(() => ({
     transform: [{ perspective: 1200 }, { rotateY: `${rot.value + 180}deg` }],
+    opacity: interpolate(rot.value, [89, 90], [0, 1], Extrapolation.CLAMP),
   }));
 
   const faceBase: ViewStyle = {
     position: 'absolute',
     top: 0, left: 0, right: 0, bottom: 0,
     borderRadius: t.radius.xl,
-    backfaceVisibility: 'hidden',
     padding: t.spacing._6,
     justifyContent: 'space-between',
   };

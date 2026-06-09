@@ -38,7 +38,7 @@ export default function FlashcardScreen() {
   const isLast   = idx + 1 >= total;
 
   const advance = (m: 'known' | 'hard') => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
     if (phrase) mark(phrase.id, m);
     if (isLast) {
       router.replace(`/quiz/${lessonId}`);

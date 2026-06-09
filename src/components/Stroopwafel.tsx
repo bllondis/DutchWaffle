@@ -6,7 +6,16 @@ import Svg, {
 type Mood  = 'neutral' | 'happy' | 'focus';
 type Props = { size?: number; mood?: Mood };
 
+// Counter for unique SVG IDs — avoids gradient conflicts when
+// multiple Stroopwafel instances exist on the same web page.
+let _idCounter = 0;
+
 export default function Stroopwafel({ size = 48, mood = 'neutral' }: Props) {
+  // Stable unique ID per component instance
+  const uid = React.useRef(`sw${++_idCounter}`).current;
+  const gradId = `${uid}_body`;
+  const clipId = `${uid}_clip`;
+
   const gridLines: React.ReactNode[] = [];
   for (let i = 1; i < 7; i++) {
     const v = (i / 7) * 100;
@@ -24,15 +33,17 @@ export default function Stroopwafel({ size = 48, mood = 'neutral' }: Props) {
   return (
     <Svg viewBox="0 0 100 100" width={size} height={size}>
       <Defs>
-        <ClipPath id="wafel"><Circle cx="50" cy="50" r="48" /></ClipPath>
-        <RadialGradient id="body" cx="40%" cy="35%" r="70%">
+        <ClipPath id={clipId}>
+          <Circle cx="50" cy="50" r="48" />
+        </ClipPath>
+        <RadialGradient id={gradId} cx="40%" cy="35%" r="70%">
           <Stop offset="0%"   stopColor="#F0C37C" />
           <Stop offset="60%"  stopColor="#D9A55E" />
           <Stop offset="100%" stopColor="#A87333" />
         </RadialGradient>
       </Defs>
-      <Circle cx="50" cy="50" r="48" fill="url(#body)" />
-      <G clipPath="url(#wafel)">{gridLines}</G>
+      <Circle cx="50" cy="50" r="48" fill={`url(#${gradId})`} />
+      <G clipPath={`url(#${clipId})`}>{gridLines}</G>
       <Circle cx="50" cy="50" r="48" fill="none" stroke="#8B5A24" strokeWidth="1.6" />
       <Ellipse cx="36" cy="32" rx="18" ry="8" fill="rgba(255,255,255,0.18)" />
       <Circle cx="42" cy="54" r="2.6" fill="#2A1607" />

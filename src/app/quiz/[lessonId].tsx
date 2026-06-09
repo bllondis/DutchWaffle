@@ -67,10 +67,10 @@ export default function QuizScreen() {
     if (picked === null) return;
     const isCorrect = options[picked]?.correct ?? false;
     if (isCorrect) {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
       setScore((s) => s + 1);
     } else {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error).catch(() => {});
     }
     setChecked(true);
   };
