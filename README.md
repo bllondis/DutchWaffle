@@ -1,56 +1,85 @@
-# Welcome to your Expo app 👋
+# Wafel – learn Dutch phrase by phrase
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile app for adults learning Dutch at **B1–B2 level**: the stage where textbooks run out and you need the phrases people actually use at work, with neighbours and in conversations.
 
-## Get started
+**[Live web demo](https://bllondis.github.io/DutchWaffle/)** · Expo / React Native · iOS, Android, Web
 
-1. Install dependencies
+<!-- TODO: add 2–3 screenshots or a short GIF here: lesson intro → flashcard → quiz -->
+<!--
+<p align="center">
+  <img src="docs/screens/lesson-intro.png" width="240" alt="Lesson intro" />
+  <img src="docs/screens/flashcard.png" width="240" alt="Flashcard" />
+  <img src="docs/screens/quiz.png" width="240" alt="Quiz" />
+</p>
+-->
 
-   ```bash
-   npm install
-   ```
+> Status: in development. Lessons are seeded locally; a backend is planned.
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## The idea
 
-In the output, you'll find options to open the app in a
+Most language apps stop at vocabulary. At B1 the real gap is different: knowing how to *hedge*, *disagree politely* or *nuance an opinion*. Wafel teaches short, themed lessons (around 9 minutes each) built from real phrases, each with:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- the Dutch phrase, IPA pronunciation and English meaning
+- a usage note explaining *when* to use it
+- an example sentence in context
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Lesson flow
 
-## Get a fresh project
+1. **Lesson intro** – theme, level, time and number of new phrases
+2. **Flashcards** – flip cards; mark each phrase as *known* or *hard*
+3. **Quiz** – questions built from the lesson's phrases
+4. **Complete** – score and progress
 
-When you're ready, run:
+## Design
 
-```bash
-npm run reset-project
+The UI runs on a single token file (`src/theme/tokens.ts`), read through a `useTheme()` hook. No colours, spacing or fonts are hardcoded in components.
+
+- **Light and dark themes** with matching semantic tokens (`bg`, `surface`, `fg`, `accent`, `ok`, `bad`)
+- **Palette** – deep green for focus and correct answers, caramel as a warm "stroopwafel" accent
+- **Type** – Urbanist, with named text styles (`display`, `phrase`, …)
+- **Spacing and radius scales** defined once and reused everywhere
+- Shared components: `Button`, `Chip`, `TextField`, `ProgressBar`, `Skeleton`, `FlipCard`, `QuizOption`
+
+## Tech
+
+- **Expo** + **Expo Router** (file-based routing, typed routes)
+- **React Native** + **react-native-web** – one codebase for iOS, Android and web
+- **TypeScript**
+- **TanStack Query** for data loading, **Zustand** for lesson state
+- **Reanimated** + **Gesture Handler** for the flip-card interaction, **expo-haptics** for feedback
+- **GitHub Actions** – every push to `main` builds the web version and deploys it to GitHub Pages
+
+```
+src/
+  app/            screens (Expo Router): index, lesson-intro, flashcard, quiz, complete
+  features/lesson api, hooks and components for the lesson flow
+  components/     shared UI components
+  theme/          design tokens + ThemeProvider
+  data/           types and seeded lesson content
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## How it was built
 
-### Other setup steps
+I designed the product and built it with AI coding tools (Claude Code and others). I set the structure, the design tokens and the rules the code has to follow (see `AGENTS.md`), then reviewed and refined what the AI produced. The aim of the project is to show how a designer can take an idea all the way to a working, deployed app.
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+## Run locally
 
-## Learn more
+```bash
+npm install
+npx expo start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Then open it in Expo Go, an iOS simulator, an Android emulator, or press `w` for the web version.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Roadmap
 
-## Join the community
+- [ ] Audio playback for every phrase
+- [ ] More themes and levels (B1, B1+, B2)
+- [ ] Backend and saved progress across devices
+- [ ] Spaced repetition for phrases marked *hard*
 
-Join our community of developers creating universal apps.
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Designed and built by [Tetiana Dovgalenko](https://bllondis.github.io/portfolio-site/) – Product Designer & AI Design Engineer, The Hague.
