@@ -2,9 +2,9 @@
 
 A mobile app for adults learning Dutch at **B1–B2 level**: the stage where textbooks run out and you need the phrases people actually use at work, with neighbours and in conversations. Short themed lessons, flip flashcards, quick quizzes, and a stroopwafel called **dhr. Waffle** who keeps you company.
 
-**[Live web demo](https://bllondis.github.io/DutchWaffle/)** · **[Design prototype](https://bllondis.github.io/DutchWaffle/design/Dutch%20Phrases%20App.html)** · **[Developer handoff](https://bllondis.github.io/DutchWaffle/design/Handoff.html)** · **[Lesson bank](https://bllondis.github.io/DutchWaffle/design/Lessenbank.html)** · **[Meet dhr. Waffle](https://bllondis.github.io/DutchWaffle/design/dhr.%20Waffle.html)**
+**[Try it in the browser](https://bllondis.github.io/DutchWaffle/)** (mobile app, best viewed at phone width) · **[Design prototype](https://bllondis.github.io/DutchWaffle/design/Dutch%20Phrases%20App.html)** · **[Developer handoff](https://bllondis.github.io/DutchWaffle/design/Handoff.html)** · **[Lesson bank](https://bllondis.github.io/DutchWaffle/design/Lessenbank.html)** · **[Meet dhr. Waffle](https://bllondis.github.io/DutchWaffle/design/dhr.%20Waffle.html)**
 
-Expo · React Native · TypeScript · iOS, Android, Web
+Expo · React Native · TypeScript · iOS and Android
 
 ![Wafel – five core screens](docs/screens/screens.jpg)
 
@@ -92,11 +92,11 @@ I designed the product and directed the build; AI tools wrote much of the code. 
 ## Tech
 
 - **Expo** + **Expo Router** (file-based routing, typed routes)
-- **React Native** + **react-native-web** – one codebase for iOS, Android and web
+- **React Native** for iOS and Android, with **react-native-web** for a quick browser preview
 - **TypeScript**
 - **TanStack Query** for data loading, **Zustand** for lesson state
 - **Reanimated** + **Gesture Handler** for the flip card, **expo-haptics** for feedback
-- **GitHub Actions** – every push to `main` builds the web app and publishes it, together with the design pages, to GitHub Pages
+- **GitHub Actions** – every push to `main` builds the browser preview and publishes it, together with the design pages, to GitHub Pages
 
 ```
 src/
@@ -118,7 +118,7 @@ npm install
 npx expo start
 ```
 
-Then open it in Expo Go, an iOS simulator, an Android emulator, or press `w` for the web version.
+Then open it in Expo Go, an iOS simulator or an Android emulator, or press `w` for a browser preview.
 
 ## Roadmap
 
