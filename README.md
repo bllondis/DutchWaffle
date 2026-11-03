@@ -2,7 +2,7 @@
 
 A mobile app for adults learning Dutch at **B1–B2 level**: the stage where textbooks run out and you need the phrases people actually use at work, with neighbours and in conversations. Short themed lessons, flip flashcards, quick quizzes, and a stroopwafel called **dhr. Waffle** who keeps you company.
 
-**[Try it in the browser](https://bllondis.github.io/DutchWaffle/)** (mobile app, best viewed at phone width) · **[Design prototype](https://bllondis.github.io/DutchWaffle/design/Dutch%20Phrases%20App.html)** · **[Developer handoff](https://bllondis.github.io/DutchWaffle/design/Handoff.html)** · **[Lesson bank](https://bllondis.github.io/DutchWaffle/design/Lessenbank.html)** · **[Meet dhr. Waffle](https://bllondis.github.io/DutchWaffle/design/dhr.%20Waffle.html)**
+**[Try it in the browser](https://bllondis.github.io/DutchWaffle/)** (a phone-sized preview of the mobile app) · **[Design prototype](https://bllondis.github.io/DutchWaffle/design/Dutch%20Phrases%20App.html)** · **[Developer handoff](https://bllondis.github.io/DutchWaffle/design/Handoff.html)** · **[Lesson bank](https://bllondis.github.io/DutchWaffle/design/Lessenbank.html)** · **[Meet dhr. Waffle](https://bllondis.github.io/DutchWaffle/design/dhr.%20Waffle.html)**
 
 Expo · React Native · TypeScript · iOS and Android
 

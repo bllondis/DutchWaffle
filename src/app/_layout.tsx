@@ -12,6 +12,7 @@ import {
   Urbanist_700Bold,
 } from '@expo-google-fonts/urbanist';
 
+import { PhoneFrame } from '@/components/PhoneFrame';
 import { ThemeProvider, useTheme } from '@/theme/ThemeProvider';
 
 SplashScreen.preventAutoHideAsync();
@@ -66,7 +67,9 @@ export default function RootLayout() {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider scheme="dark">
           <StatusBar style="light" />
-          <AppStack />
+          <PhoneFrame>
+            <AppStack />
+          </PhoneFrame>
         </ThemeProvider>
       </QueryClientProvider>
     </SafeAreaProvider>
