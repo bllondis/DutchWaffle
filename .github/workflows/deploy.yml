@@ -37,6 +37,9 @@ jobs:
       - name: Build web app
         run: npx expo export --platform web
 
+      - name: Add design docs (prototype, handoff, lesson bank, mascot)
+        run: cp -r docs/design dist/design
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

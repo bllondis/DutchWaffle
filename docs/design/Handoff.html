@@ -1,0 +1,1625 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>Wafel — Dev Handoff</title>
+<link rel="stylesheet" href="styles/tokens.css">
+<link rel="stylesheet" href="styles/app.css">
+<style>
+  body { background: var(--bg); color: var(--fg); }
+  .doc {
+    max-width: 1280px; margin: 0 auto;
+    padding: 64px 56px 160px;
+  }
+  .doc-head {
+    display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end;
+    padding-bottom: 32px; border-bottom: 1px solid var(--line);
+    margin-bottom: 56px;
+  }
+  .doc-head h1 {
+    font-size: clamp(40px, 4.5vw, 64px);
+    font-weight: 600; letter-spacing: -0.03em; line-height: 0.98;
+    margin: 8px 0 0; text-wrap: balance;
+  }
+  .doc-head h1 em { font-style: italic; font-weight: 300; color: var(--caramel-2); }
+  .doc-head .meta {
+    display: grid; grid-template-columns: auto auto; gap: 4px 18px;
+    font-size: 12px; text-align: right;
+    align-items: baseline;
+  }
+  .doc-head .meta dt { color: var(--fg-mute); letter-spacing: 0.08em; text-transform: uppercase; font-size: 10px; font-weight: 600; }
+  .doc-head .meta dd { color: var(--fg); margin: 0; font-weight: 500; }
+
+  .toc {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+    margin-bottom: 80px;
+    padding: 4px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+  }
+  .toc a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px; border-radius: 14px;
+    color: var(--fg-dim); text-decoration: none;
+    font-size: 13px; font-weight: 500;
+    transition: all 150ms;
+  }
+  .toc a:hover { background: var(--surface-2); color: var(--fg); }
+  .toc a .n {
+    width: 22px; height: 22px; border-radius: 7px;
+    background: var(--bg-2); color: var(--fg-mute);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: ui-monospace, monospace; font-size: 10px; font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  section.sec { margin-bottom: 96px; scroll-margin-top: 24px; }
+  section.sec > h2 {
+    font-size: 36px; font-weight: 600; letter-spacing: -0.025em;
+    line-height: 1.05; margin: 0 0 8px;
+    display: flex; align-items: baseline; gap: 16px;
+  }
+  section.sec > h2 .n {
+    font-family: ui-monospace, monospace;
+    font-size: 16px; font-weight: 500;
+    color: var(--accent); letter-spacing: 0;
+  }
+  section.sec > .lead {
+    font-size: 17px; line-height: 1.5; color: var(--fg-dim);
+    max-width: 720px; margin: 0 0 40px;
+  }
+  section.sec h3 {
+    font-size: 20px; font-weight: 600; letter-spacing: -0.01em;
+    margin: 40px 0 16px;
+  }
+  section.sec h4 {
+    font-size: 14px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--fg-mute);
+    margin: 24px 0 12px;
+  }
+  section.sec p { color: var(--fg-dim); line-height: 1.55; max-width: 760px; }
+  section.sec p strong { color: var(--fg); font-weight: 600; }
+  section.sec ul { color: var(--fg-dim); line-height: 1.6; padding-left: 18px; max-width: 760px; }
+  section.sec ul li { margin-bottom: 4px; }
+  section.sec ul li::marker { color: var(--accent); }
+  section.sec code, .ic {
+    font-family: ui-monospace, monospace; font-size: 12.5px;
+    background: var(--surface-2); color: var(--accent-2);
+    padding: 1px 6px; border-radius: 4px;
+    border: 1px solid var(--line);
+  }
+  section.sec pre {
+    background: #0A100E; border: 1px solid var(--line);
+    border-radius: 14px; padding: 20px 22px;
+    overflow-x: auto;
+    font-family: ui-monospace, monospace; font-size: 12.5px;
+    color: var(--fg-dim); line-height: 1.55;
+  }
+  section.sec pre .k { color: #C792EA; }
+  section.sec pre .s { color: #C3E88D; }
+  section.sec pre .c { color: var(--fg-mute); font-style: italic; }
+  section.sec pre .v { color: #82AAFF; }
+  section.sec pre .t { color: #FFCB6B; }
+  section.sec pre .p { color: var(--fg); }
+  section.sec a { color: var(--accent); text-decoration: none; border-bottom: 1px dashed rgba(110,199,169,0.4); }
+
+  /* screen inventory */
+  .screen-inv {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;
+  }
+  .screen-card {
+    border: 1px solid var(--line); border-radius: 18px;
+    background: var(--surface); overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .screen-card .thumb {
+    aspect-ratio: 9/16; background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+    position: relative; padding: 12px;
+    display: flex; flex-direction: column;
+  }
+  .screen-card .thumb .scrim {
+    position: absolute; inset: 0; background:
+      radial-gradient(circle at 50% 70%, rgba(110,199,169,0.06), transparent 60%);
+  }
+  .screen-card .body { padding: 14px; flex: 1; }
+  .screen-card .body .id {
+    font-family: ui-monospace, monospace; font-size: 10px;
+    color: var(--accent); letter-spacing: 0.05em;
+  }
+  .screen-card .body .name {
+    font-size: 15px; font-weight: 600; letter-spacing: -0.01em;
+    margin: 4px 0 8px;
+  }
+  .screen-card .body p {
+    font-size: 12px; line-height: 1.45;
+    color: var(--fg-dim); margin: 0;
+  }
+
+  /* navigation graph */
+  .nav-graph {
+    position: relative;
+    padding: 60px 40px;
+    border: 1px solid var(--line); border-radius: 22px;
+    background: var(--surface);
+    overflow-x: auto;
+  }
+  .nav-row {
+    display: flex; align-items: center; gap: 32px; min-width: 1100px;
+  }
+  .nav-node {
+    flex-shrink: 0;
+    border: 1px solid var(--line); border-radius: 14px;
+    background: var(--bg-2);
+    padding: 16px 18px; min-width: 150px;
+    position: relative;
+  }
+  .nav-node .label {
+    font-family: ui-monospace, monospace; font-size: 10px;
+    color: var(--accent); letter-spacing: 0.05em;
+  }
+  .nav-node .name { font-size: 14px; font-weight: 600; margin-top: 4px; }
+  .nav-node .desc { font-size: 11px; color: var(--fg-mute); margin-top: 6px; line-height: 1.4; }
+  .nav-arrow {
+    flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    color: var(--accent);
+  }
+  .nav-arrow svg { flex-shrink: 0; }
+  .nav-arrow .lbl {
+    font-size: 10px; color: var(--fg-mute);
+    font-family: ui-monospace, monospace;
+  }
+  .nav-side {
+    margin-top: 24px;
+    padding: 16px;
+    border: 1px dashed var(--line-2); border-radius: 12px;
+    background: rgba(110,199,169,0.04);
+  }
+  .nav-side .ttl {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    color: var(--accent); text-transform: uppercase;
+  }
+
+  /* token tables */
+  .swatches {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;
+  }
+  .swatch {
+    border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .swatch .chip {
+    height: 80px; padding: 10px 12px; border-radius: 0;
+    color: inherit; border: none; background: var(--bg);
+    display: flex; align-items: flex-end;
+    font-size: 11px; font-weight: 600;
+    font-family: ui-monospace, monospace;
+  }
+  .swatch .meta {
+    padding: 10px 12px;
+    font-size: 11px; color: var(--fg-dim);
+  }
+  .swatch .meta .name { color: var(--fg); font-weight: 600; font-size: 12px; }
+  .swatch .meta .val { font-family: ui-monospace, monospace; color: var(--fg-mute); margin-top: 2px; }
+
+  .type-row {
+    display: grid; grid-template-columns: 220px 1fr 200px; gap: 24px;
+    padding: 18px 0; border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .type-row .label { color: var(--fg-mute); font-size: 12px; font-family: ui-monospace, monospace; }
+  .type-row .specs { color: var(--fg-mute); font-size: 11px; font-family: ui-monospace, monospace; text-align: right; }
+
+  .scale-row {
+    display: grid; grid-template-columns: 80px 1fr 200px; gap: 18px;
+    padding: 10px 0; align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+  .scale-row .name { font-family: ui-monospace, monospace; font-size: 12px; color: var(--accent); }
+  .scale-row .bar { background: var(--surface-2); height: 16px; border-radius: 4px; }
+  .scale-row .specs { font-family: ui-monospace, monospace; font-size: 11px; color: var(--fg-mute); text-align: right; }
+
+  /* components grid */
+  .comp-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+  }
+  .comp-card {
+    border: 1px solid var(--line); border-radius: 16px;
+    background: var(--surface); padding: 20px;
+  }
+  .comp-card .hdr {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .comp-card .hdr h4 { margin: 0; color: var(--fg); font-size: 14px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .comp-card .hdr .tag {
+    font-family: ui-monospace, monospace; font-size: 10px;
+    color: var(--accent); background: rgba(110,199,169,0.08);
+    padding: 3px 8px; border-radius: 6px;
+  }
+  .comp-card .demo {
+    background: var(--bg-2); border: 1px solid var(--line);
+    border-radius: 12px; padding: 24px;
+    min-height: 110px;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    flex-wrap: wrap;
+  }
+  .comp-card .props {
+    margin-top: 14px;
+    font-size: 11px; line-height: 1.6;
+    color: var(--fg-mute);
+    font-family: ui-monospace, monospace;
+  }
+  .comp-card .props .row {
+    display: flex; gap: 10px;
+    padding: 2px 0;
+  }
+  .comp-card .props .row .k { color: var(--accent-2); min-width: 92px; }
+  .comp-card .props .row .v { color: var(--fg-dim); }
+
+  /* state grid */
+  .state-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  }
+  .state-card {
+    border: 1px solid var(--line); border-radius: 16px;
+    background: var(--surface); padding: 16px;
+  }
+  .state-card .ttl {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .state-card .dot {
+    width: 8px; height: 8px; border-radius: 99px;
+  }
+  .state-card .demo {
+    background: var(--bg-2); border-radius: 10px;
+    border: 1px solid var(--line);
+    padding: 14px; min-height: 120px;
+    display: flex; flex-direction: column; align-items: stretch; justify-content: center; gap: 10px;
+  }
+  .state-card .note {
+    margin-top: 10px;
+    font-size: 11px; color: var(--fg-mute); line-height: 1.45;
+  }
+
+  /* spinner */
+  .spinner {
+    width: 20px; height: 20px; border-radius: 99px;
+    border: 2px solid var(--line-2);
+    border-top-color: var(--accent);
+    animation: spin 800ms linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .skeleton {
+    background: linear-gradient(90deg, var(--surface) 0%, var(--surface-2) 50%, var(--surface) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+    border-radius: 6px;
+  }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+  /* tech spec */
+  .stack-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  }
+  .stack-tile {
+    border: 1px solid var(--line); border-radius: 14px;
+    background: var(--surface); padding: 16px 18px;
+  }
+  .stack-tile .cat {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent);
+  }
+  .stack-tile .item {
+    margin-top: 6px;
+    font-size: 14px; font-weight: 600;
+    font-family: ui-monospace, monospace;
+  }
+  .stack-tile .desc {
+    margin-top: 4px; font-size: 11px;
+    color: var(--fg-mute); line-height: 1.45;
+  }
+
+  /* file tree */
+  .tree {
+    font-family: ui-monospace, monospace;
+    font-size: 12.5px; line-height: 1.7;
+    color: var(--fg-dim);
+    background: #0A100E; border: 1px solid var(--line);
+    border-radius: 14px; padding: 22px 26px;
+  }
+  .tree .dir { color: var(--accent); font-weight: 600; }
+  .tree .file { color: var(--fg-dim); }
+  .tree .file.key { color: var(--caramel-2); font-weight: 600; }
+  .tree .c { color: var(--fg-mute); font-style: italic; }
+
+  /* download band */
+  .dl-band {
+    display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center;
+    padding: 28px 32px; border-radius: 22px;
+    background: linear-gradient(150deg, rgba(110,199,169,0.10) 0%, var(--surface) 70%);
+    border: 1px solid rgba(110,199,169,0.25);
+    margin-top: 28px;
+  }
+  .dl-band h3 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.015em; }
+  .dl-band p { margin: 6px 0 0; color: var(--fg-dim); font-size: 13px; max-width: 520px; }
+
+  /* api table */
+  table.api {
+    width: 100%; border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 12.5px;
+  }
+  table.api th, table.api td {
+    text-align: left; padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  table.api th {
+    font-size: 10px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--fg-mute);
+    font-weight: 600;
+  }
+  table.api td.k { font-family: ui-monospace, monospace; color: var(--accent-2); white-space: nowrap; }
+  table.api td.t { font-family: ui-monospace, monospace; color: var(--caramel-2); font-size: 11px; white-space: nowrap; }
+  table.api td.d { color: var(--fg-dim); }
+
+  /* mini-component demos */
+  .demo-btn-primary {
+    background: var(--accent); color: var(--accent-ink);
+    padding: 12px 22px; border-radius: 999px;
+    font-weight: 600; font-size: 14px; border: none;
+  }
+  .demo-btn-ghost {
+    background: transparent; color: var(--fg-dim);
+    padding: 12px 22px; border-radius: 999px;
+    font-weight: 600; font-size: 14px;
+    border: 1px solid var(--line-2);
+  }
+  .demo-input {
+    background: var(--surface-2); color: var(--fg);
+    padding: 14px 16px; border-radius: 12px;
+    border: 1px solid var(--line);
+    font-size: 14px; font-family: inherit;
+    width: 100%;
+  }
+  .demo-input:focus { outline: none; border-color: var(--accent); }
+
+  .field {
+    display: flex; flex-direction: column; gap: 6px;
+    width: 100%;
+  }
+  .field-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--fg-mute);
+  }
+  .field-hint {
+    font-size: 11px; color: var(--fg-mute);
+  }
+  .field.err .demo-input { border-color: var(--bad); }
+  .field.err .field-hint { color: var(--bad); }
+
+  /* footer */
+  footer.foot {
+    margin-top: 96px; padding-top: 32px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--fg-mute); font-size: 12px;
+  }
+  footer.foot a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="doc">
+
+  <!-- Head -->
+  <div class="doc-head">
+    <div>
+      <div class="t-eyebrow" style="color: var(--accent);">Developer handoff · v1.0</div>
+      <h1>Wafel <em>Dutch.</em><br/>Specification for development.</h1>
+    </div>
+    <dl class="meta">
+      <dt>Platform</dt><dd>iOS · Android</dd>
+      <dt>Stack</dt><dd>React Native + Expo 51</dd>
+      <dt>Audience</dt><dd>B1 → B2 Dutch learners</dd>
+      <dt>Theme</dt><dd>Donker · Flip flashcards</dd>
+      <dt>Document</dt><dd>22 May 2026</dd>
+    </dl>
+  </div>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <a href="#screens"><span class="n">01</span>Screens</a>
+    <a href="#flow"><span class="n">02</span>Transitions</a>
+    <a href="#components"><span class="n">03</span>Components</a>
+    <a href="#tokens"><span class="n">04</span>Design system</a>
+    <a href="#states"><span class="n">05</span>States</a>
+    <a href="#tech"><span class="n">06</span>Tech spec</a>
+    <a href="#bundle"><span class="n">07</span>Bundle</a>
+    <a href="#api"><span class="n">08</span>Data / API</a>
+  </nav>
+
+  <!-- 01. Screens -->
+  <section class="sec" id="screens">
+    <h2><span class="n">01</span>Screen inventory</h2>
+    <p class="lead">MVP — 5 primary screens + 4 system screens (Splash, Auth, Profile, Settings) for full navigation. Each screen has a route name (for React Navigation), the stack it lives in, and a v1 priority.</p>
+
+    <div class="screen-inv">
+
+      <div class="screen-card">
+        <div class="thumb">
+          <div class="scrim"></div>
+          <div style="position:relative; padding: 6px;">
+            <div style="font-size:8px; color: var(--fg-mute);">Goedemorgen</div>
+            <div style="font-size:11px; font-weight:600; margin-top:1px;">Sander</div>
+            <div style="margin-top:10px; padding:8px; border-radius:8px; background: rgba(110,199,169,0.1); border:1px solid rgba(110,199,169,0.2);">
+              <div style="font-size:7px; color: var(--accent);">VERDER</div>
+              <div style="font-size:9px; font-weight:600; margin-top:2px;">Je mening<br/>nuanceren</div>
+              <div class="progress" style="margin-top:6px; height:3px;"><i style="width:38%;"></i></div>
+            </div>
+            <div style="margin-top:10px;">
+              <div style="font-size:6px; color: var(--fg-mute);">JOUW NIVEAU</div>
+              <div style="font-size:8px; margin-top:3px; padding:5px; background: var(--surface); border-radius:5px;">B1 · Onderweg</div>
+              <div style="font-size:8px; margin-top:3px; padding:5px; background: rgba(110,199,169,0.06); border:1px solid rgba(110,199,169,0.2); border-radius:5px;">B1+ · Op niveau</div>
+            </div>
+          </div>
+        </div>
+        <div class="body">
+          <div class="id">SCR-01 · /home</div>
+          <div class="name">Home</div>
+          <p>Continue card for the current lesson, level picker (B1/B1+/B2), themes. Streak & notifications in the header.</p>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="thumb">
+          <div class="scrim"></div>
+          <div style="position:relative; padding: 6px;">
+            <div style="display:flex; gap:3px; margin-bottom:8px;">
+              <span style="font-size:6px; padding:2px 5px; background: rgba(110,199,169,0.1); color: var(--accent); border-radius:99px;">B1+</span>
+              <span style="font-size:6px; padding:2px 5px; background: var(--surface); border-radius:99px; color: var(--fg-mute);">Mening</span>
+            </div>
+            <div style="background: linear-gradient(160deg, #2A3F39 0%, #182523 100%); border-radius:10px; padding:10px;">
+              <div style="font-size:6px; color: var(--caramel-2);">THEMA</div>
+              <div style="font-size:11px; font-weight:600; line-height:1.05; margin-top:3px;">Je mening<br/>nuanceren</div>
+              <div style="font-size:7px; color: var(--fg-dim); margin-top:6px;">Express nuance</div>
+              <div style="display:flex; gap:8px; margin-top:10px; padding-top:8px; border-top:1px solid var(--line);">
+                <div><div style="font-size:9px; font-weight:600;">9m</div><div style="font-size:6px; color: var(--fg-mute);">TIJD</div></div>
+                <div><div style="font-size:9px; font-weight:600;">8</div><div style="font-size:6px; color: var(--fg-mute);">ZIN.</div></div>
+              </div>
+            </div>
+            <div style="margin-top:8px; padding:5px; background: var(--surface); border-radius:5px; font-size:7px;">01 · Enerzijds…</div>
+            <div style="margin-top:3px; padding:5px; background: var(--surface); border-radius:5px; font-size:7px;">02 · Het hangt…</div>
+          </div>
+        </div>
+        <div class="body">
+          <div class="id">SCR-02 · /lesson/[id]</div>
+          <div class="name">Lesson Intro</div>
+          <p>Theme card with metadata (minutes, phrase count, new words), preview list of phrases. CTA "Begin de les".</p>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="thumb">
+          <div class="scrim"></div>
+          <div style="position:relative; padding: 6px;">
+            <div style="display:flex; gap:4px; align-items:center;">
+              <div style="width:10px; height:10px; border-radius:99px; background: var(--surface);"></div>
+              <div class="progress" style="flex:1; height:3px;"><i style="width:38%;"></i></div>
+              <span style="font-size:7px; font-family:monospace; color: var(--fg-mute);">3/8</span>
+            </div>
+            <div style="margin-top:10px; background: var(--surface-2); border-radius:10px; padding:10px; aspect-ratio:3/4; display:flex; flex-direction:column; justify-content:space-between; border:1px solid var(--line);">
+              <span style="font-size:6px; padding:2px 5px; background: rgba(110,199,169,0.1); color: var(--accent); border-radius:99px; align-self:flex-start;">NL</span>
+              <div>
+                <div style="font-size:12px; font-weight:600; line-height:1.1;">Dat valt<br/>wel mee</div>
+                <div style="font-family:monospace; font-size:6px; color: var(--fg-mute); margin-top:3px;">/dɑt vɑlt mɛl meː/</div>
+              </div>
+              <div style="font-size:6px; color: var(--fg-mute);">Tik om te draaien</div>
+            </div>
+            <div style="margin-top:8px; display:flex; gap:4px;">
+              <div style="flex:1; height:14px; background: var(--surface); border-radius:99px;"></div>
+              <div style="flex:1.4; height:14px; background: var(--accent); border-radius:99px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="body">
+          <div class="id">SCR-03 · /lesson/[id]/study</div>
+          <div class="name">Flashcard (Flip)</div>
+          <p>3D-flip card. Front — NL + IPA + audio. Back — translation, context, example. Actions: "Lastig" / "Ken ik".</p>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="thumb">
+          <div class="scrim"></div>
+          <div style="position:relative; padding: 6px;">
+            <div style="display:flex; gap:4px; align-items:center;">
+              <div style="width:10px; height:10px; border-radius:99px; background: var(--surface);"></div>
+              <div class="progress" style="flex:1; height:3px;"><i style="width:62%;"></i></div>
+              <span style="font-size:6px; padding:2px 5px; background: rgba(217,165,94,0.1); color: var(--caramel-2); border-radius:99px;">🔥 12</span>
+            </div>
+            <div style="font-size:6px; color: var(--caramel-2); margin-top:8px; letter-spacing:0.1em;">VRAAG 5/8</div>
+            <div style="font-size:9px; font-weight:600; margin-top:3px;">Wat betekent…?</div>
+            <div style="margin-top:6px; padding:8px; background: var(--surface-2); border-radius:8px;">
+              <div style="font-size:10px; font-weight:600;">Daar zit wat in</div>
+            </div>
+            <div style="margin-top:5px; padding:6px; background: rgba(110,199,169,0.12); border:1px solid var(--ok); border-radius:6px; font-size:7px;">A · You've got a point</div>
+            <div style="margin-top:3px; padding:6px; background: var(--surface); border-radius:6px; font-size:7px; color: var(--fg-dim);">B · I disagree</div>
+            <div style="margin-top:3px; padding:6px; background: var(--surface); border-radius:6px; font-size:7px; color: var(--fg-dim);">C · It depends</div>
+          </div>
+        </div>
+        <div class="body">
+          <div class="id">SCR-04 · /lesson/[id]/quiz</div>
+          <div class="name">MC Quiz</div>
+          <p>Multiple choice: NL phrase → 4 EN options. States: idle / selected / correct / wrong. Feedback card after submit.</p>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="thumb">
+          <div class="scrim"></div>
+          <div style="position:relative; padding: 6px; text-align:center;">
+            <div style="margin: 14px auto 0; width:36px; height:36px; border-radius:99px; background: var(--caramel); display:flex; align-items:center; justify-content:center; font-size:14px;">🧇</div>
+            <div style="font-size:6px; color: var(--accent); margin-top:8px; letter-spacing:0.1em;">LES VOLTOOID</div>
+            <div style="font-size:11px; font-weight:600; line-height:1.05; margin-top:3px;">Lekker bezig,<br/>Sander!</div>
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:3px; margin-top:10px;">
+              <div style="padding:6px 4px; background: var(--surface); border-radius:5px;"><div style="font-size:9px; font-weight:600;">8</div><div style="font-size:5px; color: var(--fg-mute);">ZIN.</div></div>
+              <div style="padding:6px 4px; background: rgba(110,199,169,0.08); border:1px solid rgba(110,199,169,0.2); border-radius:5px;"><div style="font-size:9px; font-weight:600; color: var(--accent);">87%</div><div style="font-size:5px; color: var(--fg-mute);">SCORE</div></div>
+              <div style="padding:6px 4px; background: rgba(217,165,94,0.08); border:1px solid rgba(217,165,94,0.2); border-radius:5px;"><div style="font-size:9px; font-weight:600; color: var(--caramel-2);">12</div><div style="font-size:5px; color: var(--fg-mute);">STREAK</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="body">
+          <div class="id">SCR-05 · /lesson/[id]/done</div>
+          <div class="name">Voltooid</div>
+          <p>Celebration + stats (phrases, % score, streak). List of learned phrases. CTA: Klaar / Volgende les.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <h3>System screens (out of MVP — described for completeness)</h3>
+    <table class="api">
+      <thead><tr><th>ID</th><th>Route</th><th>Stack</th><th>Description</th><th>v1</th></tr></thead>
+      <tbody>
+        <tr><td class="k">SCR-00</td><td class="t">/splash</td><td class="d">Root</td><td class="d">Logo + auth/data hydration. ≤1.2s.</td><td class="d">✅</td></tr>
+        <tr><td class="k">SCR-A1</td><td class="t">/onboarding</td><td class="d">Auth</td><td class="d">3 slides — pick level, daily goal (min/day), notifications.</td><td class="d">v1.1</td></tr>
+        <tr><td class="k">SCR-A2</td><td class="t">/sign-in</td><td class="d">Auth</td><td class="d">Email / Apple / Google.</td><td class="d">v1.1</td></tr>
+        <tr><td class="k">SCR-06</td><td class="t">/profile</td><td class="d">Tabs</td><td class="d">Streak history, all learned phrases, settings entry.</td><td class="d">v1.1</td></tr>
+        <tr><td class="k">SCR-07</td><td class="t">/settings</td><td class="d">Modal</td><td class="d">Theme, reminders, reverse language, delete progress.</td><td class="d">v1.1</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 02. Flow -->
+  <section class="sec" id="flow">
+    <h2><span class="n">02</span>Screen transitions</h2>
+    <p class="lead">Linear lesson flow with an exit to Home at any step via the <code>×</code> in the header. React Navigation: <code>NativeStack</code> for the lesson flow inside tab navigation.</p>
+
+    <div class="nav-graph">
+      <div class="nav-row">
+        <div class="nav-node">
+          <div class="label">SCR-01</div>
+          <div class="name">Home</div>
+          <div class="desc">Tab root</div>
+        </div>
+        <div class="nav-arrow">
+          <span class="lbl">tap "Verder"</span>
+          <svg width="40" height="14" viewBox="0 0 40 14"><path d="M0 7h36m-6-5l6 5-6 5" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round"/></svg>
+          <span class="lbl">push</span>
+        </div>
+        <div class="nav-node">
+          <div class="label">SCR-02</div>
+          <div class="name">Lesson Intro</div>
+          <div class="desc">Modal stack</div>
+        </div>
+        <div class="nav-arrow">
+          <span class="lbl">"Begin de les"</span>
+          <svg width="40" height="14" viewBox="0 0 40 14"><path d="M0 7h36m-6-5l6 5-6 5" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round"/></svg>
+          <span class="lbl">replace</span>
+        </div>
+        <div class="nav-node">
+          <div class="label">SCR-03</div>
+          <div class="name">Flashcard</div>
+          <div class="desc">8 cards loop</div>
+        </div>
+        <div class="nav-arrow">
+          <span class="lbl">all cards done</span>
+          <svg width="40" height="14" viewBox="0 0 40 14"><path d="M0 7h36m-6-5l6 5-6 5" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round"/></svg>
+          <span class="lbl">replace</span>
+        </div>
+        <div class="nav-node">
+          <div class="label">SCR-04</div>
+          <div class="name">Quiz</div>
+          <div class="desc">8 questions</div>
+        </div>
+        <div class="nav-arrow">
+          <span class="lbl">submit final</span>
+          <svg width="40" height="14" viewBox="0 0 40 14"><path d="M0 7h36m-6-5l6 5-6 5" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round"/></svg>
+          <span class="lbl">replace</span>
+        </div>
+        <div class="nav-node">
+          <div class="label">SCR-05</div>
+          <div class="name">Voltooid</div>
+          <div class="desc">terminus</div>
+        </div>
+      </div>
+
+      <div class="nav-side">
+        <div class="ttl">Global rules</div>
+        <ul style="margin-top:8px; max-width:none;">
+          <li><strong>×</strong> on any of SCR 02–04 → <code>navigation.popToTop()</code> with a confirm dialog if any progress is logged.</li>
+          <li><strong>Swipe back gesture</strong> disabled inside lesson flow (<code>gestureEnabled: false</code>) so users do not lose progress by accident.</li>
+          <li><strong>Voltooid → Volgende les</strong> calls <code>replace</code> with the next Intro; <strong>Klaar</strong> calls <code>popToTop()</code> back to Home.</li>
+          <li>Animations: <code>slide_from_right</code> (iOS-style) for all push transitions; for intro → study use <code>fade</code> (340ms cubic-bezier 0.4, 0, 0.2, 1).</li>
+          <li>Deep links: <code>wafel://lesson/{id}</code> opens Intro; <code>wafel://lesson/{id}/study</code> opens Flashcards.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Intra-card transitions (Flashcard SCR-03)</h3>
+    <table class="api">
+      <thead><tr><th>Gesture / action</th><th>State change</th><th>Animation</th></tr></thead>
+      <tbody>
+        <tr><td class="k">tap card</td><td class="d"><code>flipped: false → true</code></td><td class="t">rotateY 0→180°, 700ms ease-out</td></tr>
+        <tr><td class="k">tap flipped card</td><td class="d"><code>flipped: true → false</code></td><td class="t">rotateY 180→360°, 700ms</td></tr>
+        <tr><td class="k">"Ken ik"</td><td class="d"><code>idx++, flipped=false, mark=known</code></td><td class="t">slide-out-left + new card slide-in-right, 400ms</td></tr>
+        <tr><td class="k">"Lastig"</td><td class="d"><code>idx++, flipped=false, mark=hard</code></td><td class="t">slide-out-right + slide-in-left, 400ms; hard ↗ requeue</td></tr>
+        <tr><td class="k">tap speaker icon</td><td class="d"><code>audio.play()</code></td><td class="t">pulse scale 1→1.1→1, 200ms</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 03. Components -->
+  <section class="sec" id="components">
+    <h2><span class="n">03</span>Component descriptions</h2>
+    <p class="lead">Atomic → molecular → organism. Each is a functional component with a typed API. Styles via theme (see §04).</p>
+
+    <h3>Atoms</h3>
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <div class="hdr"><h4>Button</h4><span class="tag">atom</span></div>
+        <div class="demo">
+          <button class="demo-btn-primary">Begin de les</button>
+          <button class="demo-btn-ghost">Lastig</button>
+        </div>
+        <div class="props">
+          <div class="row"><span class="k">variant</span><span class="v">'primary' | 'ghost' | 'destructive'</span></div>
+          <div class="row"><span class="k">size</span><span class="v">'sm' | 'md' | 'lg' = 'md'</span></div>
+          <div class="row"><span class="k">leftIcon</span><span class="v">React.ReactNode?</span></div>
+          <div class="row"><span class="k">rightIcon</span><span class="v">React.ReactNode?</span></div>
+          <div class="row"><span class="k">loading</span><span class="v">boolean — shows spinner</span></div>
+          <div class="row"><span class="k">disabled</span><span class="v">boolean</span></div>
+          <div class="row"><span class="k">block</span><span class="v">boolean — full width</span></div>
+          <div class="row"><span class="k">onPress</span><span class="v">() => void</span></div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="hdr"><h4>IconButton</h4><span class="tag">atom</span></div>
+        <div class="demo">
+          <div style="width:40px; height:40px; border-radius:99px; background: var(--surface); border: 1px solid var(--line); display:flex; align-items:center; justify-content:center; color: var(--fg-dim);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg>
+          </div>
+          <div style="width:40px; height:40px; border-radius:99px; background: var(--accent); display:flex; align-items:center; justify-content:center; color: var(--accent-ink);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <div class="props">
+          <div class="row"><span class="k">icon</span><span class="v">IconName | ReactNode (required)</span></div>
+          <div class="row"><span class="k">variant</span><span class="v">'neutral' | 'accent' = 'neutral'</span></div>
+          <div class="row"><span class="k">size</span><span class="v">32 | 40 | 48 = 40</span></div>
+          <div class="row"><span class="k">a11yLabel</span><span class="v">string (required)</span></div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="hdr"><h4>Chip</h4><span class="tag">atom</span></div>
+        <div class="demo">
+          <span class="chip">B1+</span>
+          <span class="chip chip-accent">Dutch</span>
+          <span class="chip chip-caramel">🔥 12</span>
+        </div>
+        <div class="props">
+          <div class="row"><span class="k">tone</span><span class="v">'neutral' | 'accent' | 'caramel'</span></div>
+          <div class="row"><span class="k">leftIcon</span><span class="v">ReactNode?</span></div>
+          <div class="row"><span class="k">children</span><span class="v">ReactNode</span></div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="hdr"><h4>ProgressBar</h4><span class="tag">atom</span></div>
+        <div class="demo" style="flex-direction:column; gap: 16px; align-items: stretch;">
+          <div class="progress" style="width:100%;"><i style="width:38%;"></i></div>
+          <div class="progress" style="width:100%;"><i style="width:75%; background: var(--caramel);"></i></div>
+        </div>
+        <div class="props">
+          <div class="row"><span class="k">value</span><span class="v">number — 0..1</span></div>
+          <div class="row"><span class="k">tone</span><span class="v">'accent' | 'caramel' = 'accent'</span></div>
+          <div class="row"><span class="k">animated</span><span class="v">boolean = true (300ms cubic-bezier)</span></div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="hdr"><h4>Input / TextField</h4><span class="tag">atom</span></div>
+        <div class="demo" style="flex-direction:column; gap: 10px; align-items: stretch;">
+          <div class="field">
+            <span class="field-label">Email</span>
+            <input class="demo-input" value="sander@duo.nl" readonly />
+          </div>
+          <div class="field err">
+            <span class="field-label" style="color: var(--bad);">Email</span>
+            <input class="demo-input" value="invalid@" readonly />
+            <span class="field-hint">Voer een geldig e-mailadres in</span>
+          </div>
+        </div>
+        <div class="props">
+          <div class="row"><span class="k">label</span><span class="v">string?</span></div>
+          <div class="row"><span class="k">hint</span><span class="v">string?</span></div>
+          <div class="row"><span class="k">error</span><span class="v">string?</span></div>
+          <div class="row"><span class="k">leftIcon / rightIcon</span><span class="v">ReactNode?</span></div>
+          <div class="row"><span class="k">secureTextEntry</span><span class="v">boolean</span></div>
+          <div class="row"><span class="k">keyboardType</span><span class="v">RN KeyboardTypes</span></div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="hdr"><h4>Stroopwafel (Mascot)</h4><span class="tag">atom · SVG</span></div>
+        <div class="demo">
+          <div style="width:64px; height:64px;">
+            <svg viewBox="0 0 100 100" width="64" height="64">
+              <defs><radialGradient id="b" cx="40%" cy="35%" r="70%"><stop offset="0%" stop-color="#F0C37C"/><stop offset="100%" stop-color="#A87333"/></radialGradient></defs>
+              <circle cx="50" cy="50" r="48" fill="url(#b)"/>
+              <circle cx="42" cy="54" r="2.6" fill="#2A1607"/>
+              <circle cx="58" cy="54" r="2.6" fill="#2A1607"/>
+              <path d="M42 64 Q50 72 58 64" stroke="#2A1607" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="props">
+          <div class="row"><span class="k">size</span><span class="v">number = 48</span></div>
+          <div class="row"><span class="k">mood</span><span class="v">'neutral' | 'happy' | 'focus' = 'neutral'</span></div>
+          <div class="row"><span class="k">animate</span><span class="v">boolean — bob/scale entrance</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <h3>Molecules</h3>
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <div class="hdr"><h4>LessonHeader</h4><span class="tag">molecule</span></div>
+        <div class="demo" style="justify-content:space-between; align-items:center; padding: 14px 16px;">
+          <div style="width:32px; height:32px; border-radius:99px; background: var(--surface); border: 1px solid var(--line);"></div>
+          <div class="progress" style="flex:1; margin: 0 14px;"><i style="width:38%;"></i></div>
+          <span style="font-family: monospace; font-size:11px; color: var(--fg-mute);">3/8</span>
+        </div>
+        <div class="props">
+          <div class="row"><span class="k">progress</span><span class="v">number — 0..1</span></div>
+          <div class="row"><span class="k">counter</span><span class="v">{ current, total }</span></div>
+          <div class="row"><span class="k">onClose</span><span class="v">() => void</span></div>
+          <div class="row"><span class="k">streak?</span><span class="v">number — caramel chip</span></div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="hdr"><h4>LevelRow</h4><span class="tag">molecule</span></div>
+        <div class="demo" style="padding:0; background: transparent; border:none;">
+          <div style="display:flex; align-items:center; gap: 14px; padding: 14px; border: 1px solid rgba(110,199,169,0.28); background: rgba(110,199,169,0.06); border-radius:18px; width:100%;">
+            <div style="width:44px; height:44px; border-radius:14px; background: var(--accent); color: var(--accent-ink); display:flex; align-items:center; justify-content:center; font-weight:700;">B1+</div>
+            <div style="flex:1;">
+              <div style="font-weight:600; font-size:15px;">Op niveau</div>
+              <div class="progress" style="margin-top:8px;"><i style="width:12.5%;"></i></div>
+            </div>
+            <span style="font-family:monospace; font-size:11px; color: var(--fg-mute);">2/16</span>
+          </div>
+        </div>
+        <div class="props">
+          <div class="row"><span class="k">level</span><span class="v">Level — id, code, name, tagline</span></div>
+          <div class="row"><span class="k">progress</span><span class="v">{ completed, total }</span></div>
+          <div class="row"><span class="k">active</span><span class="v">boolean — background + border</span></div>
+          <div class="row"><span class="k">onPress</span><span class="v">() => void</span></div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="hdr"><h4>QuizOption</h4><span class="tag">molecule</span></div>
+        <div class="demo" style="flex-direction:column; gap:6px; align-items:stretch;">
+          <div class="mc-opt"><span class="bullet">A</span><span style="flex:1;">You've got a point</span></div>
+          <div class="mc-opt correct"><span class="bullet"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round"/></svg></span><span style="flex:1;">It depends</span></div>
+          <div class="mc-opt wrong"><span class="bullet">C</span><span style="flex:1;">I disagree</span></div>
+        </div>
+        <div class="props">
+          <div class="row"><span class="k">letter</span><span class="v">'A'|'B'|'C'|'D'</span></div>
+          <div class="row"><span class="k">label</span><span class="v">string</span></div>
+          <div class="row"><span class="k">state</span><span class="v">'idle'|'selected'|'correct'|'wrong'|'disabled'</span></div>
+          <div class="row"><span class="k">onPress</span><span class="v">() => void</span></div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="hdr"><h4>StatTile</h4><span class="tag">molecule</span></div>
+        <div class="demo" style="gap:8px;">
+          <div class="stat-tile" style="background: rgba(110,199,169,0.06); border-color: rgba(110,199,169,0.25); width:80px;">
+            <div class="v" style="color: var(--accent);">87%</div>
+            <div class="l">Score</div>
+          </div>
+          <div class="stat-tile" style="background: rgba(217,165,94,0.06); border-color: rgba(217,165,94,0.25); width:80px;">
+            <div class="v" style="color: var(--caramel-2);">12</div>
+            <div class="l">Streak</div>
+          </div>
+        </div>
+        <div class="props">
+          <div class="row"><span class="k">value</span><span class="v">string | number</span></div>
+          <div class="row"><span class="k">label</span><span class="v">string</span></div>
+          <div class="row"><span class="k">tone</span><span class="v">'neutral'|'accent'|'caramel'</span></div>
+          <div class="row"><span class="k">icon?</span><span class="v">ReactNode</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <h3>Organisms</h3>
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <div class="hdr"><h4>FlipFlashcard</h4><span class="tag">organism</span></div>
+        <div class="demo" style="padding: 20px; min-height: 200px;">
+          <div style="width:160px; aspect-ratio:3/4; background: var(--surface-2); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display:flex; flex-direction:column; justify-content:space-between;">
+            <span class="chip chip-accent" style="align-self:flex-start;">NL</span>
+            <div>
+              <div style="font-size:18px; font-weight:600; line-height:1.1;">Daar zit<br/>wat in</div>
+              <div style="font-family:monospace; font-size:9px; color: var(--fg-mute); margin-top:4px;">/daːr zɪt vɑt ɪn/</div>
+            </div>
+            <span style="font-size:10px; color: var(--fg-mute);">Tik om te draaien</span>
+          </div>
+        </div>
+        <div class="props">
+          <div class="row"><span class="k">phrase</span><span class="v">Phrase</span></div>
+          <div class="row"><span class="k">flipped</span><span class="v">boolean (controlled)</span></div>
+          <div class="row"><span class="k">onFlip</span><span class="v">() => void</span></div>
+          <div class="row"><span class="k">onPlayAudio</span><span class="v">() => void</span></div>
+          <div class="row"><span class="k">showMascot</span><span class="v">boolean (from settings)</span></div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="hdr"><h4>TabBar</h4><span class="tag">organism · navigation</span></div>
+        <div class="demo" style="padding:10px 16px; background: var(--bg); border-radius: 0; min-height: 60px;">
+          <div style="display:flex; justify-content:space-around; width:100%;">
+            <div style="text-align:center; color: var(--accent);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2z" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="font-size:9px; font-weight:600; margin-top:3px;">Home</div></div>
+            <div style="text-align:center; color: var(--fg-mute);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="14" height="16" rx="2"/></svg><div style="font-size:9px; font-weight:600; margin-top:3px;">Leren</div></div>
+            <div style="text-align:center; color: var(--fg-mute);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 22V4M4 4h14l-3 5 3 5H4" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="font-size:9px; font-weight:600; margin-top:3px;">Doel</div></div>
+            <div style="text-align:center; color: var(--fg-mute);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/></svg><div style="font-size:9px; font-weight:600; margin-top:3px;">Mij</div></div>
+          </div>
+        </div>
+        <div class="props">
+          <div class="row"><span class="k">routes</span><span class="v">'home'|'learn'|'goal'|'me'</span></div>
+          <div class="row"><span class="k">active</span><span class="v">RouteName</span></div>
+          <div class="row"><span class="k">badges?</span><span class="v">Record&lt;RouteName, number&gt;</span></div>
+          <div class="row"><span class="k">hideOnLessonFlow</span><span class="v">boolean — auto</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 04. Tokens -->
+  <section class="sec" id="tokens">
+    <h2><span class="n">04</span>Design system</h2>
+    <p class="lead">All tokens exported via <code>src/theme/tokens.ts</code> (TypeScript const) and mirrored into Reanimated shared values for animations. Supports <code>dark</code> (default) and <code>light</code> via theme provider.</p>
+
+    <h3>Colors · Dark (default)</h3>
+    <div class="swatches">
+      <div class="swatch"><div class="chip" style="background:#0B0F0E;"></div><div class="meta"><div class="name">bg</div><div class="val">#0B0F0E</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#11181A;"></div><div class="meta"><div class="name">bg-2</div><div class="val">#11181A</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#17201F;"></div><div class="meta"><div class="name">surface</div><div class="val">#17201F</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#1F2A28;"></div><div class="meta"><div class="name">surface-2</div><div class="val">#1F2A28</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#F4F6F3;"></div><div class="meta"><div class="name">fg</div><div class="val">#F4F6F3</div></div></div>
+      <div class="swatch"><div class="chip" style="background:rgba(244,246,243,0.62);"></div><div class="meta"><div class="name">fg-dim</div><div class="val">62% fg</div></div></div>
+    </div>
+
+    <h4>Brand &amp; accents</h4>
+    <div class="swatches">
+      <div class="swatch"><div class="chip" style="background:#6EC7A9; color:#0B2F24;">accent</div><div class="meta"><div class="name">accent</div><div class="val">#6EC7A9</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#A7E3CB; color:#0B2F24;">hi</div><div class="meta"><div class="name">accent-2</div><div class="val">#A7E3CB</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#D9A55E; color:#2A1A07;">caramel</div><div class="meta"><div class="name">caramel</div><div class="val">#D9A55E</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#F0C37C; color:#2A1A07;">hi</div><div class="meta"><div class="name">caramel-2</div><div class="val">#F0C37C</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#6EC7A9; color:#0B2F24;">ok</div><div class="meta"><div class="name">ok</div><div class="val">#6EC7A9</div></div></div>
+      <div class="swatch"><div class="chip" style="background:#E58E7C; color:#3B1410;">bad</div><div class="meta"><div class="name">bad</div><div class="val">#E58E7C</div></div></div>
+    </div>
+
+    <h3>Typography</h3>
+    <p>One family — <strong>Urbanist</strong> (Google Fonts, OFL). Loaded via <code>expo-font</code> in <code>App.tsx</code>. Always use <code>fontVariant: ['tabular-nums']</code> for progress counters and numeric labels.</p>
+
+    <div style="margin-top: 16px;">
+      <div class="type-row">
+        <div>
+          <div class="label">display</div>
+          <div style="font-size:44px; font-weight:600; letter-spacing:-0.025em; line-height:1.02;">Lekker bezig</div>
+        </div>
+        <div></div>
+        <div class="specs">44 / 600 / -2.5% / 102%</div>
+      </div>
+      <div class="type-row">
+        <div>
+          <div class="label">phrase</div>
+          <div style="font-size:32px; font-weight:600; letter-spacing:-0.02em; line-height:1.1;">Daar zit wat in</div>
+        </div>
+        <div></div>
+        <div class="specs">32 / 600 / -2% / 110%</div>
+      </div>
+      <div class="type-row">
+        <div>
+          <div class="label">title</div>
+          <div style="font-size:22px; font-weight:600; letter-spacing:-0.01em;">Je mening nuanceren</div>
+        </div>
+        <div></div>
+        <div class="specs">22 / 600 / -1% / 120%</div>
+      </div>
+      <div class="type-row">
+        <div>
+          <div class="label">body</div>
+          <div style="font-size:15px; color: var(--fg-dim); line-height:1.5;">Leer hoe je in het Nederlands genuanceerd je mening geeft.</div>
+        </div>
+        <div></div>
+        <div class="specs">15 / 400 / 0 / 150%</div>
+      </div>
+      <div class="type-row">
+        <div>
+          <div class="label">label</div>
+          <div style="font-size:13px; font-weight:500; color: var(--fg-dim);">Tijd</div>
+        </div>
+        <div></div>
+        <div class="specs">13 / 500 / 0 / 140%</div>
+      </div>
+      <div class="type-row">
+        <div>
+          <div class="label">eyebrow</div>
+          <div style="font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color: var(--fg-mute);">Verder gaan</div>
+        </div>
+        <div></div>
+        <div class="specs">11 / 600 / +14% / uppercase</div>
+      </div>
+      <div class="type-row">
+        <div>
+          <div class="label">mono / IPA</div>
+          <div style="font-family:ui-monospace,monospace; font-size:12px; color: var(--fg-mute);">/dɑt vɑlt ʋɛl meː/</div>
+        </div>
+        <div></div>
+        <div class="specs">12 / 400 / 0 / 150%</div>
+      </div>
+    </div>
+
+    <h3>Spacing (8pt grid)</h3>
+    <div style="margin-top:16px;">
+      <div class="scale-row"><div class="name">space.1</div><div class="bar" style="width:2px;"></div><div class="specs">2 px</div></div>
+      <div class="scale-row"><div class="name">space.2</div><div class="bar" style="width:4px;"></div><div class="specs">4 px</div></div>
+      <div class="scale-row"><div class="name">space.3</div><div class="bar" style="width:8px;"></div><div class="specs">8 px</div></div>
+      <div class="scale-row"><div class="name">space.4</div><div class="bar" style="width:12px;"></div><div class="specs">12 px</div></div>
+      <div class="scale-row"><div class="name">space.5</div><div class="bar" style="width:16px;"></div><div class="specs">16 px · base</div></div>
+      <div class="scale-row"><div class="name">space.6</div><div class="bar" style="width:24px;"></div><div class="specs">24 px</div></div>
+      <div class="scale-row"><div class="name">space.7</div><div class="bar" style="width:32px;"></div><div class="specs">32 px</div></div>
+      <div class="scale-row"><div class="name">space.8</div><div class="bar" style="width:48px;"></div><div class="specs">48 px</div></div>
+      <div class="scale-row"><div class="name">space.9</div><div class="bar" style="width:64px;"></div><div class="specs">64 px</div></div>
+    </div>
+
+    <h4>Radii</h4>
+    <table class="api">
+      <thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td class="k">radius.sm</td><td class="t">10 px</td><td class="d">Small buttons, badges</td></tr>
+        <tr><td class="k">radius.md</td><td class="t">16 px</td><td class="d">Option cards, MC quiz</td></tr>
+        <tr><td class="k">radius.lg</td><td class="t">22 px</td><td class="d">Primary cards (continue, level)</td></tr>
+        <tr><td class="k">radius.xl</td><td class="t">28 px</td><td class="d">Flashcard, lesson hero</td></tr>
+        <tr><td class="k">radius.full</td><td class="t">999 px</td><td class="d">Primary/ghost buttons, chips, brand pills</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Buttons — variants</h3>
+    <table class="api">
+      <thead><tr><th>Variant</th><th>BG</th><th>Text</th><th>Border</th><th>States</th></tr></thead>
+      <tbody>
+        <tr><td class="k">primary</td><td class="t">accent</td><td class="t">accent-ink</td><td class="t">none</td><td class="d">hover: accent-2 · disabled: opacity 0.45 · pressed: scale 0.98</td></tr>
+        <tr><td class="k">ghost</td><td class="t">transparent</td><td class="t">fg-dim</td><td class="t">1px line-2</td><td class="d">hover: bg surface, color fg · disabled: opacity 0.4</td></tr>
+        <tr><td class="k">destructive</td><td class="t">bad</td><td class="t">white</td><td class="t">none</td><td class="d">For confirm dialogs (exit lesson)</td></tr>
+      </tbody>
+    </table>
+
+    <h4>Sizing</h4>
+    <table class="api">
+      <thead><tr><th>Size</th><th>Height</th><th>Padding-X</th><th>Font</th><th>Icon</th></tr></thead>
+      <tbody>
+        <tr><td class="k">sm</td><td class="t">36</td><td class="t">14</td><td class="t">13 / 600</td><td class="t">14</td></tr>
+        <tr><td class="k">md</td><td class="t">44</td><td class="t">18</td><td class="t">14 / 600</td><td class="t">16</td></tr>
+        <tr><td class="k">lg</td><td class="t">52</td><td class="t">22</td><td class="t">15 / 600</td><td class="t">18</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Inputs / Forms</h3>
+    <table class="api">
+      <thead><tr><th>Token</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td class="k">input.height</td><td class="t">52 px</td></tr>
+        <tr><td class="k">input.radius</td><td class="t">12 px</td></tr>
+        <tr><td class="k">input.bg</td><td class="t">surface-2 (#1F2A28)</td></tr>
+        <tr><td class="k">input.border</td><td class="t">1px solid line</td></tr>
+        <tr><td class="k">input.focus.border</td><td class="t">1px solid accent + 3px ring rgba(110,199,169,0.2)</td></tr>
+        <tr><td class="k">input.error.border</td><td class="t">1px solid bad (#E58E7C)</td></tr>
+        <tr><td class="k">input.placeholder</td><td class="t">fg-mute · weight 400</td></tr>
+        <tr><td class="k">label.gap</td><td class="t">6 px (label → input)</td></tr>
+        <tr><td class="k">hint.gap</td><td class="t">6 px (input → hint)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Shadows</h3>
+    <table class="api">
+      <thead><tr><th>Token</th><th>iOS / RN</th><th>Android elevation</th></tr></thead>
+      <tbody>
+        <tr><td class="k">shadow.sm</td><td class="t">0 1px 3px rgba(0,0,0,0.3)</td><td class="t">2</td></tr>
+        <tr><td class="k">shadow.md</td><td class="t">0 8px 24px rgba(0,0,0,0.35)</td><td class="t">6</td></tr>
+        <tr><td class="k">shadow.lg</td><td class="t">0 20px 40px rgba(0,0,0,0.45)</td><td class="t">12</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Motion · animations</h3>
+    <table class="api">
+      <thead><tr><th>Token</th><th>Duration</th><th>Easing</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td class="k">motion.fast</td><td class="t">150 ms</td><td class="t">cubic-bezier(0.4, 0, 0.2, 1)</td><td class="d">hover, focus, ripple</td></tr>
+        <tr><td class="k">motion.base</td><td class="t">200 ms</td><td class="t">cubic-bezier(0.4, 0, 0.2, 1)</td><td class="d">color, opacity transitions</td></tr>
+        <tr><td class="k">motion.slow</td><td class="t">340 ms</td><td class="t">cubic-bezier(0.4, 0, 0.2, 1)</td><td class="d">screen transitions</td></tr>
+        <tr><td class="k">motion.flip</td><td class="t">700 ms</td><td class="t">cubic-bezier(0.4, 0, 0.2, 1)</td><td class="d">flashcard rotate</td></tr>
+        <tr><td class="k">motion.spring</td><td class="t">stiffness 180, damping 22</td><td class="t">react-native-reanimated</td><td class="d">card answer feedback</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 05. States -->
+  <section class="sec" id="states">
+    <h2><span class="n">05</span>States — every screen</h2>
+    <p class="lead">Every screen handles four universal states. Skeleton placeholders for loading; empty/error/success are full screens with illustration.</p>
+
+    <h3>SCR-01 Home</h3>
+    <div class="state-grid">
+      <div class="state-card">
+        <div class="ttl"><span class="dot" style="background: var(--accent);"></span>Success (default)</div>
+        <div class="demo">
+          <div style="padding:8px; border-radius:8px; background: rgba(110,199,169,0.12); border:1px solid rgba(110,199,169,0.25);">
+            <div style="font-size:8px; color: var(--accent);">VERDER GAAN</div>
+            <div style="font-size:11px; font-weight:600; margin-top:2px;">Je mening nuanceren</div>
+            <div class="progress" style="margin-top:6px;"><i style="width:38%;"></i></div>
+          </div>
+          <div style="padding:6px; background: var(--surface); border-radius:6px; font-size:9px;">B1 · 4/12</div>
+        </div>
+        <div class="note">Continue card + 3 levels + themes. Data from cache + background refetch.</div>
+      </div>
+
+      <div class="state-card">
+        <div class="ttl"><span class="dot" style="background: var(--fg-mute);"></span>Loading</div>
+        <div class="demo">
+          <div class="skeleton" style="height:60px;"></div>
+          <div class="skeleton" style="height:14px; width: 60%;"></div>
+          <div class="skeleton" style="height:40px;"></div>
+          <div class="skeleton" style="height:40px;"></div>
+        </div>
+        <div class="note">Shimmer skeletons over 1.5s (looped). Exact geometry of final layout — no shift on data arrival.</div>
+      </div>
+
+      <div class="state-card">
+        <div class="ttl"><span class="dot" style="background: var(--fg-mute);"></span>Empty (new user)</div>
+        <div class="demo" style="align-items:center; justify-content:center; text-align:center;">
+          <div style="width:44px; height:44px; border-radius:99px; background: var(--caramel);"></div>
+          <div style="font-size:12px; font-weight:600;">Welkom, Sander!</div>
+          <div style="font-size:10px; color: var(--fg-mute);">Kies een niveau om te starten</div>
+        </div>
+        <div class="note">First launch after onboarding. Mascot + CTA "Kies niveau".</div>
+      </div>
+
+      <div class="state-card">
+        <div class="ttl"><span class="dot" style="background: var(--bad);"></span>Error (offline / sync fail)</div>
+        <div class="demo" style="align-items:center; justify-content:center; text-align:center;">
+          <div style="font-size:24px;">⚠️</div>
+          <div style="font-size:11px; font-weight:600;">Geen verbinding</div>
+          <div style="font-size:10px; color: var(--fg-mute);">Cached lesson nog beschikbaar</div>
+          <button class="demo-btn-ghost" style="padding: 6px 12px; font-size:10px; height:28px;">Probeer opnieuw</button>
+        </div>
+        <div class="note">Inline banner at top + cached cards stay rendered. <code>onRetry</code> → refetch query.</div>
+      </div>
+    </div>
+
+    <h3>SCR-03 Flashcard (study)</h3>
+    <div class="state-grid">
+      <div class="state-card">
+        <div class="ttl"><span class="dot" style="background: var(--accent);"></span>Success</div>
+        <div class="demo">
+          <div style="width:100%; aspect-ratio:3/4; background: var(--surface-2); border:1px solid var(--line); border-radius:12px; padding:10px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:4px;">
+            <div style="font-size:12px; font-weight:600;">Dat valt wel mee</div>
+            <div style="font-family:monospace; font-size:8px; color: var(--fg-mute);">/dɑt vɑlt/</div>
+          </div>
+        </div>
+        <div class="note">8 phrases in sequence. SRS: hard-marked phrases return after 3 iterations.</div>
+      </div>
+      <div class="state-card">
+        <div class="ttl"><span class="dot" style="background: var(--fg-mute);"></span>Loading (audio fetch)</div>
+        <div class="demo" style="align-items:center; justify-content:center;">
+          <div class="spinner"></div>
+          <div style="font-size:10px; color: var(--fg-mute);">Audio laden…</div>
+        </div>
+        <div class="note">Only on first playback (lazy MP3). Subsequent plays from <code>expo-file-system</code> cache.</div>
+      </div>
+      <div class="state-card">
+        <div class="ttl"><span class="dot" style="background: var(--fg-mute);"></span>Empty</div>
+        <div class="demo" style="align-items:center; justify-content:center; text-align:center;">
+          <div style="font-size:11px; font-weight:600;">Alle kaarten doorlopen</div>
+          <div style="font-size:9px; color: var(--fg-mute);">Klaar voor de quiz?</div>
+          <button class="demo-btn-primary" style="padding:6px 12px; font-size:10px; height:28px;">Quiz starten</button>
+        </div>
+        <div class="note">After the last card — auto-replace to /quiz after 800ms.</div>
+      </div>
+      <div class="state-card">
+        <div class="ttl"><span class="dot" style="background: var(--bad);"></span>Error</div>
+        <div class="demo" style="align-items:center; justify-content:center; text-align:center;">
+          <div style="font-size:11px; font-weight:600;">Audio niet beschikbaar</div>
+          <div style="font-size:9px; color: var(--fg-mute);">Je kan toch verder studeren.</div>
+        </div>
+        <div class="note">Audio failure = silent fallback; cards continue without sound. Text is never blocked.</div>
+      </div>
+    </div>
+
+    <h3>SCR-04 Quiz</h3>
+    <div class="state-grid">
+      <div class="state-card">
+        <div class="ttl"><span class="dot" style="background: var(--fg-mute);"></span>Idle (question asked)</div>
+        <div class="demo">
+          <div class="mc-opt"><span class="bullet">A</span><span style="font-size:10px; flex:1;">Option A</span></div>
+          <div class="mc-opt"><span class="bullet">B</span><span style="font-size:10px; flex:1;">Option B</span></div>
+        </div>
+        <div class="note">CTA "Controleren" is disabled (opacity 0.45) while <code>picked === null</code>.</div>
+      </div>
+      <div class="state-card">
+        <div class="ttl"><span class="dot" style="background: var(--accent);"></span>Correct</div>
+        <div class="demo">
+          <div class="mc-opt correct"><span class="bullet"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round"/></svg></span><span style="font-size:10px;">Correct answer</span></div>
+          <div style="padding:6px; border-radius:6px; background: rgba(110,199,169,0.1); border:1px solid rgba(110,199,169,0.25);">
+            <div style="font-size:8px; color: var(--accent);">GOED ZO!</div>
+            <div style="font-size:9px; margin-top:2px;">Explanation…</div>
+          </div>
+        </div>
+        <div class="note">Haptic <code>Haptics.Success</code>. Streak +1. Audio cue (200ms tone).</div>
+      </div>
+      <div class="state-card">
+        <div class="ttl"><span class="dot" style="background: var(--bad);"></span>Wrong</div>
+        <div class="demo">
+          <div class="mc-opt wrong"><span class="bullet">A</span><span style="font-size:10px; flex:1;">Picked wrong</span></div>
+          <div class="mc-opt correct"><span class="bullet"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round"/></svg></span><span style="font-size:10px; flex:1;">Actually right</span></div>
+        </div>
+        <div class="note">Haptic <code>Haptics.Error</code>. Shake-animation 240ms (translateX ±4). Streak break visible at +1 wrong.</div>
+      </div>
+      <div class="state-card">
+        <div class="ttl"><span class="dot" style="background: var(--fg-mute);"></span>Loading (submit)</div>
+        <div class="demo" style="align-items:center; justify-content:center;">
+          <div class="spinner"></div>
+        </div>
+        <div class="note">Question submit — optimistic UI with analytics fallback.</div>
+      </div>
+    </div>
+
+    <h3>Global: Toast, Banner, Confirm dialog</h3>
+    <table class="api">
+      <thead><tr><th>Pattern</th><th>Behavior</th><th>Tone</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Toast (success)</td><td class="d">slide-up from bottom, 3.2s, auto-dismiss</td><td class="t">accent + accent-ink</td></tr>
+        <tr><td class="k">Toast (error)</td><td class="d">slide-up, 4s, swipe-down to dismiss</td><td class="t">bad + white</td></tr>
+        <tr><td class="k">Banner</td><td class="d">sticky below status bar (offline / sync delay)</td><td class="t">caramel-2 on surface</td></tr>
+        <tr><td class="k">Confirm dialog</td><td class="d">modal · "Stop met de les?" · 2 buttons</td><td class="t">surface + accent/destructive CTAs</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 06. Tech spec -->
+  <section class="sec" id="tech">
+    <h2><span class="n">06</span>Technical spec</h2>
+    <p class="lead">React Native + Expo SDK 51 (managed). TypeScript strict. Architecture — feature folders. State — Zustand for UI, TanStack Query for server data, MMKV for persisted prefs.</p>
+
+    <h3>Stack</h3>
+    <div class="stack-grid">
+      <div class="stack-tile"><div class="cat">Runtime</div><div class="item">Expo SDK 51</div><div class="desc">managed workflow; EAS Build for production.</div></div>
+      <div class="stack-tile"><div class="cat">UI</div><div class="item">React Native 0.74</div><div class="desc">+ react-native-svg, expo-linear-gradient.</div></div>
+      <div class="stack-tile"><div class="cat">Language</div><div class="item">TypeScript 5.4</div><div class="desc">strict: true; noUncheckedIndexedAccess.</div></div>
+      <div class="stack-tile"><div class="cat">Navigation</div><div class="item">React Navigation 6</div><div class="desc">native-stack + bottom-tabs.</div></div>
+      <div class="stack-tile"><div class="cat">Animations</div><div class="item">Reanimated 3</div><div class="desc">+ react-native-gesture-handler for flip/swipe.</div></div>
+      <div class="stack-tile"><div class="cat">State</div><div class="item">Zustand 4</div><div class="desc">UI store (current lesson, local streak).</div></div>
+      <div class="stack-tile"><div class="cat">Data</div><div class="item">TanStack Query 5</div><div class="desc">offline-first + auto retry.</div></div>
+      <div class="stack-tile"><div class="cat">Persist</div><div class="item">react-native-mmkv</div><div class="desc">prefs, streak, completed lessons.</div></div>
+      <div class="stack-tile"><div class="cat">Audio</div><div class="item">expo-av</div><div class="desc">MP3 phrases, ducking, offline cache.</div></div>
+      <div class="stack-tile"><div class="cat">Haptics</div><div class="item">expo-haptics</div><div class="desc">success/error/selection patterns.</div></div>
+      <div class="stack-tile"><div class="cat">Fonts</div><div class="item">expo-font</div><div class="desc">Urbanist 300–800, preloaded in App.</div></div>
+      <div class="stack-tile"><div class="cat">Analytics</div><div class="item">PostHog RN</div><div class="desc">Events table — see §08.</div></div>
+      <div class="stack-tile"><div class="cat">Crash</div><div class="item">Sentry</div><div class="desc">+ source-map upload via EAS hooks.</div></div>
+      <div class="stack-tile"><div class="cat">i18n</div><div class="item">i18next + react-i18next</div><div class="desc">NL UI · EN fallback.</div></div>
+      <div class="stack-tile"><div class="cat">Tests</div><div class="item">Jest + RTL</div><div class="desc">+ Maestro for e2e flows.</div></div>
+    </div>
+
+    <h3>Architecture rules</h3>
+    <ul>
+      <li><strong>Feature folders</strong>: <code>src/features/lesson/{components,hooks,api,types}</code> — everything local. Cross-feature deps go through <code>src/shared</code> only.</li>
+      <li><strong>No styled-components</strong>: <code>StyleSheet.create</code> + theme object via the <code>useTheme()</code> hook (reads from <code>ThemeProvider</code>).</li>
+      <li><strong>Server data — through React Query only</strong>. UI state — through Zustand only. Do not mix.</li>
+      <li><strong>Animations</strong> — Reanimated worklets only, no <code>Animated.timing</code> from RN core. All pressables — <code>Pressable</code> + scale-spring.</li>
+      <li><strong>Accessibility</strong>: <code>accessibilityLabel</code> is required on every Pressable. Minimum touch target 44×44 dp.</li>
+      <li><strong>Performance</strong>: <code>memo</code> for list items; <code>FlashList</code> instead of FlatList for lists with &gt;20 items.</li>
+      <li><strong>Errors</strong>: <code>ErrorBoundary</code> at the root + per-screen; <code>onError</code> reports to Sentry with context.</li>
+    </ul>
+
+    <h3>Performance budget</h3>
+    <table class="api">
+      <thead><tr><th>Metric</th><th>Target</th><th>How to measure</th></tr></thead>
+      <tbody>
+        <tr><td class="d">Cold start (Splash → Home)</td><td class="t">≤ 1.2s</td><td class="d">Sentry transactions / Flashlight</td></tr>
+        <tr><td class="d">JS bundle (release)</td><td class="t">≤ 4 MB</td><td class="d">EAS Build artifact</td></tr>
+        <tr><td class="d">Card flip frame rate</td><td class="t">60fps stable</td><td class="d">Perf Monitor; UI thread 95th &lt;16.6ms</td></tr>
+        <tr><td class="d">Home screen TTI</td><td class="t">≤ 400ms (cached)</td><td class="d">React Query devtools timing</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Accessibility</h3>
+    <ul>
+      <li>Contrast — WCAG AA on every text node (fg on bg = 14.2:1; fg-dim on bg = 8.8:1 ✅).</li>
+      <li>Dynamic Type: support iOS Larger Text — typography scales via <code>PixelRatio.getFontScale()</code> clamped to (0.85, 1.4).</li>
+      <li>VoiceOver/TalkBack: flashcard announces "Dutch phrase: …; tap to reveal English translation".</li>
+      <li>Reduce Motion: disable the flip animation (instant switch) and the wrong-answer letter shake.</li>
+      <li>Information-carrying icons get an <code>accessibilityLabel</code>; decorative ones use <code>accessibilityElementsHidden</code>.</li>
+    </ul>
+
+    <h3>Localization</h3>
+    <p>UI is always in Dutch (part of the immersion methodology). Hints, errors, system copy — also NL with an EN fallback. Tutorial/onboarding has EN and UK variants. File structure: <code>src/i18n/{nl,en,uk}/common.json</code>.</p>
+
+    <h3>Analytics — events table</h3>
+    <table class="api">
+      <thead><tr><th>Event</th><th>Properties</th><th>Trigger</th></tr></thead>
+      <tbody>
+        <tr><td class="k">lesson_started</td><td class="t">{ lesson_id, theme, level }</td><td class="d">Begin de les tap</td></tr>
+        <tr><td class="k">card_flipped</td><td class="t">{ lesson_id, phrase_id, idx }</td><td class="d">flashcard tap</td></tr>
+        <tr><td class="k">card_marked</td><td class="t">{ phrase_id, mark: 'known'|'hard' }</td><td class="d">action button</td></tr>
+        <tr><td class="k">quiz_answered</td><td class="t">{ q_id, correct, ms_to_answer }</td><td class="d">Controleren submit</td></tr>
+        <tr><td class="k">lesson_completed</td><td class="t">{ lesson_id, score, streak }</td><td class="d">SCR-05 mount</td></tr>
+        <tr><td class="k">streak_broken</td><td class="t">{ days_held, day_of_week }</td><td class="d">streak goes to 0</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Security &amp; privacy</h3>
+    <ul>
+      <li>No PII in analytics except <code>user_id</code> (UUID). Email/name stays in the auth backend.</li>
+      <li>Token storage — <code>expo-secure-store</code> (Keychain / EncryptedSharedPreferences).</li>
+      <li>API: HTTPS only; pinned certificate in production builds.</li>
+      <li>Right to erase — button in /settings: DELETE /api/v1/me with confirm dialog.</li>
+    </ul>
+  </section>
+
+  <!-- 07. Bundle -->
+  <section class="sec" id="bundle">
+    <h2><span class="n">07</span>Handoff bundle</h2>
+    <p class="lead">A React Native + Expo scaffold with all tokens, base components, and one fully implemented screen (Flashcard). Unpack, <code>pnpm install</code>, <code>pnpm start</code>.</p>
+
+    <div class="tree">
+<span class="dir">wafel-app/</span>
+├── <span class="file key">package.json</span>            <span class="c"># Expo 51, RN 0.74, all deps</span>
+├── <span class="file key">app.json</span>                <span class="c"># Expo config: name, slug, splash, scheme</span>
+├── <span class="file">tsconfig.json</span>
+├── <span class="file">babel.config.js</span>
+├── <span class="file">App.tsx</span>                 <span class="c"># Root: providers + nav + font load</span>
+└── <span class="dir">src/</span>
+    ├── <span class="dir">theme/</span>
+    │   ├── <span class="file key">tokens.ts</span>           <span class="c"># Colors, typography, spacing (TS const)</span>
+    │   ├── <span class="file">ThemeProvider.tsx</span>
+    │   └── <span class="file">useTheme.ts</span>
+    ├── <span class="dir">components/</span>
+    │   ├── <span class="file">Button.tsx</span>
+    │   ├── <span class="file">IconButton.tsx</span>
+    │   ├── <span class="file">Chip.tsx</span>
+    │   ├── <span class="file">ProgressBar.tsx</span>
+    │   ├── <span class="file">TextField.tsx</span>
+    │   ├── <span class="file">Stroopwafel.tsx</span>     <span class="c"># SVG mascot</span>
+    │   └── <span class="file">Skeleton.tsx</span>
+    ├── <span class="dir">features/</span>
+    │   ├── <span class="dir">home/</span>
+    │   │   ├── <span class="file">HomeScreen.tsx</span>
+    │   │   ├── <span class="file">LevelRow.tsx</span>
+    │   │   └── <span class="file">ContinueCard.tsx</span>
+    │   ├── <span class="dir">lesson/</span>
+    │   │   ├── <span class="file">LessonIntroScreen.tsx</span>
+    │   │   ├── <span class="file key">FlashcardScreen.tsx</span>  <span class="c"># Flip variant — fully implemented</span>
+    │   │   ├── <span class="file">QuizScreen.tsx</span>
+    │   │   ├── <span class="file">CompleteScreen.tsx</span>
+    │   │   ├── <span class="dir">components/</span>
+    │   │   │   ├── <span class="file">FlipCard.tsx</span>
+    │   │   │   ├── <span class="file">QuizOption.tsx</span>
+    │   │   │   └── <span class="file">LessonHeader.tsx</span>
+    │   │   ├── <span class="dir">hooks/</span>
+    │   │   │   ├── <span class="file">useLesson.ts</span>      <span class="c"># React Query</span>
+    │   │   │   └── <span class="file">useLessonState.ts</span> <span class="c"># Zustand</span>
+    │   │   └── <span class="dir">api/</span>
+    │   │       └── <span class="file">lesson.api.ts</span>
+    │   └── <span class="dir">auth/</span>
+    │       └── …
+    ├── <span class="dir">navigation/</span>
+    │   ├── <span class="file">RootStack.tsx</span>
+    │   ├── <span class="file">TabNavigator.tsx</span>
+    │   └── <span class="file">linking.ts</span>          <span class="c"># Deep links</span>
+    ├── <span class="dir">data/</span>
+    │   ├── <span class="file">content.ts</span>          <span class="c"># Seed lessons (B1+ Mening)</span>
+    │   └── <span class="file">types.ts</span>
+    ├── <span class="dir">i18n/</span>
+    │   ├── <span class="file">index.ts</span>
+    │   └── <span class="dir">locales/</span>
+    │       ├── <span class="file">nl.json</span>
+    │       └── <span class="file">en.json</span>
+    └── <span class="dir">shared/</span>
+        ├── <span class="file">analytics.ts</span>
+        ├── <span class="file">storage.ts</span>          <span class="c"># MMKV wrapper</span>
+        └── <span class="file">audio.ts</span>            <span class="c"># expo-av wrapper with cache</span>
+    </div>
+
+    <div class="dl-band">
+      <div>
+        <h3>📦 Download bundle</h3>
+        <p>ZIP archive with the scaffold: tokens, all 5 screens (Flashcard full, others stubs with navigation wired), fully typed. README + CLAUDE.md included.</p>
+      </div>
+      <a id="dl-bundle" class="btn btn-primary" style="text-decoration:none; height:52px; padding:0 26px;" href="#">Download wafel-app.zip</a>
+    </div>
+
+    <h3>README for developer / Claude Code</h3>
+    <pre><span class="c"># Wafel — Dutch phrase app</span>
+
+<span class="c">## Quick start</span>
+pnpm install
+pnpm start          <span class="c"># Expo dev server</span>
+pnpm ios            <span class="c"># Simulator (Xcode required)</span>
+pnpm android        <span class="c"># Emulator</span>
+
+<span class="c">## Architecture</span>
+- features/ — domain folders, nothing re-exported outside
+- shared/   — atomic utilities only, no business logic
+- theme/    — tokens as TS const + ThemeProvider
+- navigation/ — RootStack with all flows; TabNavigator inside
+
+<span class="c">## Adding a screen</span>
+1. create <span class="t">features/foo/FooScreen.tsx</span>
+2. register in <span class="t">navigation/RootStack.tsx</span>
+3. type the params in <span class="t">navigation/types.ts</span>
+
+<span class="c">## Design system rules</span>
+- No raw colors — use <span class="v">theme.colors.*</span> only
+- No magic numbers — use <span class="v">theme.spacing.*</span> only
+- Font everywhere — Urbanist (preloaded in App.tsx)
+- Buttons — through <span class="t">&lt;Button&gt;</span> only; do not write a bespoke Pressable with a background fill</pre>
+
+    <h3>CLAUDE.md (for AI pair programming)</h3>
+    <pre><span class="c"># Wafel — Claude Code instructions</span>
+
+You are working on Wafel, a Dutch phrase-learning app (RN+Expo).
+
+<span class="c">## Hard rules</span>
+- Always TypeScript strict. Use <span class="v">type</span> over <span class="v">interface</span> for props.
+- Style via <span class="v">StyleSheet.create</span> + <span class="v">useTheme()</span> hook. NO inline color/spacing literals.
+- Animations: <span class="v">react-native-reanimated</span> only (no Animated API).
+- Touch targets: minimum 44×44. Always set <span class="v">accessibilityLabel</span>.
+- Imports: features import from <span class="v">@/shared</span> and <span class="v">@/components</span>; never cross-feature.
+
+<span class="c">## File patterns</span>
+- One default export per file, named like the file.
+- Co-locate <span class="v">__tests__/</span> if test exists.
+
+<span class="c">## When adding a component</span>
+1. Define <span class="v">type Props</span>.
+2. Wrap in <span class="v">React.memo</span> if pure & rendered in lists.
+3. Add an <span class="v">accessibilityLabel</span> default.
+4. Add to Storybook if it's atomic (button/input/chip).
+
+<span class="c">## Don'ts</span>
+- Don't use <span class="v">react-native-paper</span>, <span class="v">NativeBase</span>, <span class="v">styled-components</span>.
+- Don't reach for new libs without ADR in <span class="t">/docs/adr/</span>.</pre>
+
+    <h3>Key code — <code>theme/tokens.ts</code></h3>
+    <pre><span class="k">export const</span> <span class="v">tokens</span> = {
+  <span class="v">colors</span>: {
+    <span class="v">bg</span>:        <span class="s">'#0B0F0E'</span>,
+    <span class="v">bg2</span>:       <span class="s">'#11181A'</span>,
+    <span class="v">surface</span>:   <span class="s">'#17201F'</span>,
+    <span class="v">surface2</span>:  <span class="s">'#1F2A28'</span>,
+    <span class="v">line</span>:      <span class="s">'rgba(255,255,255,0.07)'</span>,
+    <span class="v">line2</span>:     <span class="s">'rgba(255,255,255,0.12)'</span>,
+
+    <span class="v">fg</span>:        <span class="s">'#F4F6F3'</span>,
+    <span class="v">fgDim</span>:     <span class="s">'rgba(244,246,243,0.62)'</span>,
+    <span class="v">fgMute</span>:    <span class="s">'rgba(244,246,243,0.38)'</span>,
+
+    <span class="v">accent</span>:    <span class="s">'#6EC7A9'</span>,
+    <span class="v">accent2</span>:   <span class="s">'#A7E3CB'</span>,
+    <span class="v">accentInk</span>: <span class="s">'#0B2F24'</span>,
+
+    <span class="v">caramel</span>:   <span class="s">'#D9A55E'</span>,
+    <span class="v">caramel2</span>:  <span class="s">'#F0C37C'</span>,
+    <span class="v">caramelInk</span>:<span class="s">'#2A1A07'</span>,
+
+    <span class="v">ok</span>:        <span class="s">'#6EC7A9'</span>,
+    <span class="v">bad</span>:       <span class="s">'#E58E7C'</span>,
+  },
+  <span class="v">spacing</span>: { <span class="v">_1</span>: <span class="t">2</span>, <span class="v">_2</span>: <span class="t">4</span>, <span class="v">_3</span>: <span class="t">8</span>, <span class="v">_4</span>: <span class="t">12</span>, <span class="v">_5</span>: <span class="t">16</span>, <span class="v">_6</span>: <span class="t">24</span>, <span class="v">_7</span>: <span class="t">32</span>, <span class="v">_8</span>: <span class="t">48</span>, <span class="v">_9</span>: <span class="t">64</span> },
+  <span class="v">radius</span>:  { <span class="v">sm</span>: <span class="t">10</span>, <span class="v">md</span>: <span class="t">16</span>, <span class="v">lg</span>: <span class="t">22</span>, <span class="v">xl</span>: <span class="t">28</span>, <span class="v">full</span>: <span class="t">999</span> },
+  <span class="v">font</span>: {
+    <span class="v">family</span>:   <span class="s">'Urbanist'</span>,
+    <span class="v">display</span>:  { <span class="v">size</span>: <span class="t">44</span>, <span class="v">weight</span>: <span class="s">'600'</span>, <span class="v">letterSpacing</span>: -<span class="t">1.1</span>, <span class="v">lineHeight</span>: <span class="t">45</span> },
+    <span class="v">phrase</span>:   { <span class="v">size</span>: <span class="t">32</span>, <span class="v">weight</span>: <span class="s">'600'</span>, <span class="v">letterSpacing</span>: -<span class="t">0.64</span>, <span class="v">lineHeight</span>: <span class="t">35</span> },
+    <span class="v">title</span>:    { <span class="v">size</span>: <span class="t">22</span>, <span class="v">weight</span>: <span class="s">'600'</span>, <span class="v">letterSpacing</span>: -<span class="t">0.22</span>, <span class="v">lineHeight</span>: <span class="t">26</span> },
+    <span class="v">body</span>:     { <span class="v">size</span>: <span class="t">15</span>, <span class="v">weight</span>: <span class="s">'400'</span>, <span class="v">lineHeight</span>: <span class="t">22</span> },
+    <span class="v">label</span>:    { <span class="v">size</span>: <span class="t">13</span>, <span class="v">weight</span>: <span class="s">'500'</span>, <span class="v">lineHeight</span>: <span class="t">18</span> },
+    <span class="v">eyebrow</span>:  { <span class="v">size</span>: <span class="t">11</span>, <span class="v">weight</span>: <span class="s">'600'</span>, <span class="v">letterSpacing</span>: <span class="t">1.54</span>, <span class="v">lineHeight</span>: <span class="t">14</span> },
+  },
+  <span class="v">motion</span>: {
+    <span class="v">fast</span>:   <span class="t">150</span>,
+    <span class="v">base</span>:   <span class="t">200</span>,
+    <span class="v">slow</span>:   <span class="t">340</span>,
+    <span class="v">flip</span>:   <span class="t">700</span>,
+    <span class="v">easing</span>: { <span class="v">x1</span>: <span class="t">0.4</span>, <span class="v">y1</span>: <span class="t">0</span>, <span class="v">x2</span>: <span class="t">0.2</span>, <span class="v">y2</span>: <span class="t">1</span> },
+  },
+} <span class="k">as const</span>;
+
+<span class="k">export type</span> <span class="v">Tokens</span> = <span class="k">typeof</span> <span class="v">tokens</span>;</pre>
+
+    <h3>Key code — <code>FlipCard.tsx</code></h3>
+    <pre><span class="k">import</span> <span class="v">Animated</span>, { <span class="v">useSharedValue</span>, <span class="v">useAnimatedStyle</span>, <span class="v">withTiming</span>, <span class="v">Easing</span> } <span class="k">from</span> <span class="s">'react-native-reanimated'</span>;
+<span class="k">import</span> { <span class="v">useTheme</span> } <span class="k">from</span> <span class="s">'@/theme/useTheme'</span>;
+
+<span class="k">type</span> <span class="v">Props</span> = { <span class="v">flipped</span>: <span class="t">boolean</span>; <span class="v">front</span>: <span class="t">ReactNode</span>; <span class="v">back</span>: <span class="t">ReactNode</span>; <span class="v">onPress</span>?: () =&gt; <span class="t">void</span> };
+
+<span class="k">export default function</span> <span class="v">FlipCard</span>({ <span class="v">flipped</span>, <span class="v">front</span>, <span class="v">back</span>, <span class="v">onPress</span> }: <span class="v">Props</span>) {
+  <span class="k">const</span> <span class="v">t</span> = <span class="v">useTheme</span>();
+  <span class="k">const</span> <span class="v">rot</span> = <span class="v">useSharedValue</span>(<span class="t">0</span>);
+
+  <span class="v">React</span>.<span class="v">useEffect</span>(() =&gt; {
+    <span class="v">rot</span>.<span class="v">value</span> = <span class="v">withTiming</span>(<span class="v">flipped</span> ? <span class="t">180</span> : <span class="t">0</span>, {
+      <span class="v">duration</span>: <span class="v">t</span>.<span class="v">motion</span>.<span class="v">flip</span>,
+      <span class="v">easing</span>: <span class="v">Easing</span>.<span class="v">bezier</span>(<span class="t">0.4</span>, <span class="t">0</span>, <span class="t">0.2</span>, <span class="t">1</span>),
+    });
+  }, [<span class="v">flipped</span>]);
+
+  <span class="k">const</span> <span class="v">frontStyle</span> = <span class="v">useAnimatedStyle</span>(() =&gt; ({
+    <span class="v">transform</span>: [{ <span class="v">perspective</span>: <span class="t">1200</span> }, { <span class="v">rotateY</span>: <span class="s">`${rot.value}deg`</span> }],
+    <span class="v">backfaceVisibility</span>: <span class="s">'hidden'</span>,
+  }));
+  <span class="k">const</span> <span class="v">backStyle</span> = <span class="v">useAnimatedStyle</span>(() =&gt; ({
+    <span class="v">transform</span>: [{ <span class="v">perspective</span>: <span class="t">1200</span> }, { <span class="v">rotateY</span>: <span class="s">`${rot.value + 180}deg`</span> }],
+    <span class="v">backfaceVisibility</span>: <span class="s">'hidden'</span>,
+  }));
+
+  <span class="k">return</span> (
+    &lt;<span class="v">Pressable</span> <span class="v">onPress</span>={<span class="v">onPress</span>} <span class="v">accessibilityLabel</span>=<span class="s">"Flashcard. Tap to reveal translation"</span>&gt;
+      &lt;<span class="v">Animated.View</span> <span class="v">style</span>={[<span class="v">styles</span>.<span class="v">face</span>, <span class="v">frontStyle</span>]}&gt;{<span class="v">front</span>}&lt;/<span class="v">Animated.View</span>&gt;
+      &lt;<span class="v">Animated.View</span> <span class="v">style</span>={[<span class="v">styles</span>.<span class="v">face</span>, <span class="v">backStyle</span>, { <span class="v">position</span>: <span class="s">'absolute'</span>, <span class="v">inset</span>: <span class="t">0</span> }]}&gt;{<span class="v">back</span>}&lt;/<span class="v">Animated.View</span>&gt;
+    &lt;/<span class="v">Pressable</span>&gt;
+  );
+}</pre>
+
+  </section>
+
+  <!-- 08. Data / API -->
+  <section class="sec" id="api">
+    <h2><span class="n">08</span>Data &amp; API</h2>
+    <p class="lead">Content-first, minimal backend. v1 — static JSON bundled in the app + user progress through the API. Audio — static MP3 on CDN.</p>
+
+    <h3>Entities</h3>
+    <pre><span class="k">type</span> <span class="v">Level</span> = {
+  <span class="v">id</span>: <span class="s">'b1'</span> | <span class="s">'b1plus'</span> | <span class="s">'b2'</span>;
+  <span class="v">code</span>: <span class="t">string</span>;     <span class="c">// 'B1', 'B1+', 'B2'</span>
+  <span class="v">name</span>: <span class="t">string</span>;
+  <span class="v">tagline</span>: <span class="t">string</span>;
+};
+
+<span class="k">type</span> <span class="v">Theme</span> = { <span class="v">id</span>: <span class="t">string</span>; <span class="v">name</span>: <span class="t">string</span>; <span class="v">en</span>: <span class="t">string</span> };
+
+<span class="k">type</span> <span class="v">Phrase</span> = {
+  <span class="v">id</span>: <span class="t">string</span>;             <span class="c">// 'mening-01-enerzijds'</span>
+  <span class="v">nl</span>: <span class="t">string</span>;
+  <span class="v">ipa</span>: <span class="t">string</span>;
+  <span class="v">en</span>: <span class="t">string</span>;
+  <span class="v">note</span>: <span class="t">string</span>;
+  <span class="v">example</span>: { <span class="v">nl</span>: <span class="t">string</span>; <span class="v">en</span>: <span class="t">string</span> };
+  <span class="v">audio</span>: <span class="t">string</span>;          <span class="c">// CDN MP3 path</span>
+};
+
+<span class="k">type</span> <span class="v">Lesson</span> = {
+  <span class="v">id</span>: <span class="t">string</span>;
+  <span class="v">theme</span>: <span class="v">Theme</span>[<span class="s">'id'</span>];
+  <span class="v">level</span>: <span class="v">Level</span>[<span class="s">'id'</span>];
+  <span class="v">title</span>: <span class="t">string</span>;
+  <span class="v">subtitle</span>: <span class="t">string</span>;
+  <span class="v">phrases</span>: <span class="v">Phrase</span>[];
+  <span class="v">minutes</span>: <span class="t">number</span>;
+};
+
+<span class="k">type</span> <span class="v">UserProgress</span> = {
+  <span class="v">lessonId</span>: <span class="t">string</span>;
+  <span class="v">completed</span>: <span class="t">boolean</span>;
+  <span class="v">score</span>: <span class="t">number</span>;        <span class="c">// 0..1</span>
+  <span class="v">phraseMarks</span>: <span class="v">Record</span>&lt;<span class="t">string</span>, <span class="s">'known'</span> | <span class="s">'hard'</span>&gt;;
+  <span class="v">updatedAt</span>: <span class="t">string</span>;
+};</pre>
+
+    <h3>REST endpoints (v1)</h3>
+    <table class="api">
+      <thead><tr><th>Method</th><th>Path</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td class="t">GET</td><td class="k">/api/v1/me</td><td class="d">Profile, level, streak.</td></tr>
+        <tr><td class="t">PATCH</td><td class="k">/api/v1/me</td><td class="d">Update preferences, level, daily goal.</td></tr>
+        <tr><td class="t">GET</td><td class="k">/api/v1/lessons?level=b1plus</td><td class="d">List of lessons with user progress.</td></tr>
+        <tr><td class="t">GET</td><td class="k">/api/v1/lessons/:id</td><td class="d">Lesson detail with phrases.</td></tr>
+        <tr><td class="t">POST</td><td class="k">/api/v1/lessons/:id/progress</td><td class="d">Save attempt (score, marks, ms).</td></tr>
+        <tr><td class="t">GET</td><td class="k">/api/v1/streak</td><td class="d">Current streak + heatmap (last 30 days).</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Offline-first strategy</h3>
+    <ul>
+      <li>Seed content (lessons + phrases JSON) is bundled into the APK/IPA — the app <strong>works offline</strong>.</li>
+      <li>Progress is saved to MMKV immediately; POST to backend happens in the background via a mutation queue (TanStack Query persister).</li>
+      <li>Audio: on entering Intro, pre-fetch all lesson MP3s → cached in <code>FileSystem.documentDirectory + 'audio/'</code>.</li>
+      <li>Conflict resolution: latest <code>updatedAt</code> wins; on tied timestamps server wins (rare).</li>
+    </ul>
+
+    <h3>Sample lesson JSON (fragment)</h3>
+    <pre>{
+  <span class="v">"id"</span>: <span class="s">"mening-01"</span>,
+  <span class="v">"theme"</span>: <span class="s">"mening"</span>,
+  <span class="v">"level"</span>: <span class="s">"b1plus"</span>,
+  <span class="v">"title"</span>: <span class="s">"Je mening nuanceren"</span>,
+  <span class="v">"subtitle"</span>: <span class="s">"Expressing a nuanced opinion"</span>,
+  <span class="v">"minutes"</span>: <span class="t">9</span>,
+  <span class="v">"phrases"</span>: [
+    {
+      <span class="v">"id"</span>: <span class="s">"mening-01-enerzijds"</span>,
+      <span class="v">"nl"</span>: <span class="s">"Enerzijds … anderzijds"</span>,
+      <span class="v">"ipa"</span>: <span class="s">"/ˈeːnərˌzɛits … ˈɑndərˌzɛits/"</span>,
+      <span class="v">"en"</span>: <span class="s">"On the one hand … on the other hand"</span>,
+      <span class="v">"note"</span>: <span class="s">"Classic construction to weigh two sides…"</span>,
+      <span class="v">"example"</span>: {
+        <span class="v">"nl"</span>: <span class="s">"Enerzijds werk ik graag thuis, anderzijds mis ik mijn collega's."</span>,
+        <span class="v">"en"</span>: <span class="s">"On one hand I like working from home, on the other I miss my colleagues."</span>
+      },
+      <span class="v">"audio"</span>: <span class="s">"https://cdn.wafel.app/audio/mening-01-enerzijds.mp3"</span>
+    }
+  ]
+}</pre>
+  </section>
+
+  <footer class="foot">
+    <div>Wafel · Dutch phrase learning · Handoff v1.0 · 22 May 2026</div>
+    <div><a href="Dutch Phrases App.html">← Back to prototype</a></div>
+  </footer>
+
+</div>
+
+<script>
+// Smooth scroll for TOC — manual (no scrollIntoView)
+document.querySelectorAll('.toc a').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (!el) return;
+    e.preventDefault();
+    const top = el.getBoundingClientRect().top + window.scrollY - 24;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>

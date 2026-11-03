@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>dhr. Waffle — Mascotte</title>
+<link rel="stylesheet" href="styles/tokens.css">
+<link rel="stylesheet" href="styles/app.css">
+<style>
+  body { background: var(--bg); color: var(--fg); }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 28px 56px 160px; }
+
+  /* top tabs */
+  .tabs {
+    display: flex; gap: 4px; align-items: center;
+    padding: 5px; margin-bottom: 64px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    width: fit-content;
+  }
+  .tabs a {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 16px; border-radius: 10px;
+    color: var(--fg-dim); text-decoration: none;
+    font-size: 13px; font-weight: 600; letter-spacing: -0.005em;
+    transition: all 150ms;
+  }
+  .tabs a:hover { background: var(--surface-2); color: var(--fg); }
+  .tabs a.on { background: var(--caramel); color: var(--caramel-ink); }
+
+  /* hero */
+  .hero-m {
+    display: grid; grid-template-columns: 320px 1fr; gap: 56px; align-items: center;
+    padding-bottom: 64px; margin-bottom: 80px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-disc {
+    position: relative; width: 320px; height: 320px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-disc .halo {
+    position: absolute; inset: -10%;
+    background: radial-gradient(circle at 50% 45%, rgba(217,165,94,0.20), transparent 62%);
+    pointer-events: none;
+  }
+  .hero-disc .puck {
+    position: absolute; width: 280px; height: 280px; border-radius: 50%;
+    background: radial-gradient(circle at 38% 30%, rgba(217,165,94,0.16), transparent 60%);
+    border: 1px solid rgba(217,165,94,0.18);
+  }
+  .float { animation: float 5.5s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+  .hero-m .eyebrow { color: var(--caramel-2); }
+  .hero-m h1 {
+    font-size: clamp(48px, 6vw, 84px); font-weight: 600;
+    letter-spacing: -0.04em; line-height: 0.92; margin: 14px 0 0;
+  }
+  .hero-m h1 em { font-style: italic; font-weight: 300; color: var(--caramel-2); }
+  .hero-m .role {
+    margin: 22px 0 0; font-size: 19px; line-height: 1.5; color: var(--fg-dim);
+    max-width: 520px;
+  }
+  .hero-m .role strong { color: var(--fg); font-weight: 600; }
+  .traits { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+  .vitals {
+    display: flex; gap: 32px; margin-top: 32px;
+    padding-top: 26px; border-top: 1px solid var(--line);
+  }
+  .vitals .v .k { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-mute); }
+  .vitals .v .d { font-size: 15px; font-weight: 600; margin-top: 5px; }
+  .vitals .v .d small { color: var(--fg-mute); font-weight: 500; }
+
+  /* sections */
+  section.s { margin-bottom: 88px; scroll-margin-top: 24px; }
+  section.s > .head { margin-bottom: 32px; }
+  section.s > .head .num {
+    font-family: ui-monospace, monospace; font-size: 13px;
+    color: var(--caramel-2); font-weight: 600;
+  }
+  section.s > .head h2 {
+    font-size: 32px; font-weight: 600; letter-spacing: -0.025em;
+    line-height: 1.05; margin: 6px 0 0;
+  }
+  section.s > .head p {
+    font-size: 16px; line-height: 1.5; color: var(--fg-dim);
+    max-width: 640px; margin: 12px 0 0;
+  }
+
+  /* expressions */
+  .moods { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .mood {
+    border: 1px solid var(--line); border-radius: 22px;
+    background: var(--surface); padding: 28px 20px 18px;
+    display: flex; flex-direction: column; align-items: center; gap: 18px;
+    text-align: center;
+    transition: transform 200ms, border-color 200ms;
+  }
+  .mood:hover { transform: translateY(-3px); border-color: rgba(217,165,94,0.3); }
+  .mood .slot { width: 96px; height: 96px; }
+  .mood .nm { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; }
+  .mood .use { font-size: 12px; line-height: 1.4; color: var(--fg-mute); margin-top: -10px; }
+
+  /* construction */
+  .build { display: grid; grid-template-columns: 360px 1fr; gap: 48px; align-items: center; }
+  .build .stage {
+    aspect-ratio: 1; border-radius: 26px;
+    background:
+      radial-gradient(circle at 50% 45%, rgba(217,165,94,0.08), transparent 60%),
+      var(--bg-2);
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .build .stage .grid-ovl {
+    position: absolute; inset: 0; border-radius: 26px; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .build .stage .slot { width: 240px; height: 240px; position: relative; z-index: 1; }
+  .anatomy { display: flex; flex-direction: column; gap: 2px; }
+  .anatomy .row {
+    display: grid; grid-template-columns: 26px 150px 1fr; gap: 16px; align-items: baseline;
+    padding: 14px 0; border-bottom: 1px solid var(--line);
+  }
+  .anatomy .row .dot { width: 14px; height: 14px; border-radius: 4px; align-self: center; border: 1px solid rgba(255,255,255,0.14); }
+  .anatomy .row .lab { font-size: 14px; font-weight: 600; }
+  .anatomy .row .spec { font-family: ui-monospace, monospace; font-size: 12px; color: var(--fg-mute); }
+
+  /* sizes */
+  .sizes {
+    display: flex; align-items: flex-end; gap: 40px; flex-wrap: wrap;
+    padding: 40px 36px; border: 1px solid var(--line); border-radius: 24px;
+    background: var(--surface);
+  }
+  .size-item { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .size-item .px { font-family: ui-monospace, monospace; font-size: 12px; color: var(--caramel-2); font-weight: 600; }
+  .size-item .ctx { font-size: 11px; color: var(--fg-mute); max-width: 110px; text-align: center; line-height: 1.35; }
+
+  /* in-product cards */
+  .product { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .pcard {
+    border: 1px solid var(--line); border-radius: 22px; overflow: hidden;
+    background: var(--surface);
+  }
+  .pcard .vis {
+    height: 196px; position: relative; padding: 22px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    background: radial-gradient(circle at 70% 25%, rgba(217,165,94,0.10), transparent 60%), var(--bg-2);
+    border-bottom: 1px solid var(--line);
+  }
+  .pcard .vis .mw { position: absolute; }
+  .pcard .body { padding: 18px 20px 20px; }
+  .pcard .body .where { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--caramel-2); }
+  .pcard .body .t { font-size: 16px; font-weight: 600; margin: 6px 0 6px; letter-spacing: -0.01em; }
+  .pcard .body p { font-size: 13px; line-height: 1.45; color: var(--fg-dim); margin: 0; }
+
+  /* voice */
+  .voice { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .vline {
+    display: flex; align-items: center; gap: 18px;
+    padding: 18px 22px; border-radius: 20px;
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .vline .slot { width: 52px; height: 52px; flex-shrink: 0; }
+  .vline .q { font-size: 19px; font-weight: 600; letter-spacing: -0.015em; }
+  .vline .en { font-size: 12px; color: var(--fg-mute); margin-top: 3px; }
+
+  /* do / don't */
+  .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .rule {
+    border: 1px solid var(--line); border-radius: 22px; padding: 26px 28px;
+    background: var(--surface);
+  }
+  .rule.do { border-color: rgba(110,199,169,0.28); background: rgba(110,199,169,0.04); }
+  .rule.dont { border-color: rgba(229,142,124,0.28); background: rgba(229,142,124,0.04); }
+  .rule h3 { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; font-size: 16px; font-weight: 600; }
+  .rule h3 .badge { width: 26px; height: 26px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; color: #fff; }
+  .rule.do h3 .badge { background: var(--ok); color: var(--accent-ink); }
+  .rule.dont h3 .badge { background: var(--bad); }
+  .rule ul { margin: 0; padding-left: 0; list-style: none; }
+  .rule li { font-size: 14px; line-height: 1.5; color: var(--fg-dim); padding: 8px 0 8px 22px; position: relative; border-top: 1px solid var(--line); }
+  .rule li:first-child { border-top: none; }
+  .rule li::before { content: ""; position: absolute; left: 0; top: 16px; width: 8px; height: 8px; border-radius: 2px; }
+  .rule.do li::before { background: var(--ok); }
+  .rule.dont li::before { background: var(--bad); }
+
+  footer.f {
+    margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--fg-mute); font-size: 12px;
+  }
+  footer.f a { color: var(--caramel-2); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Tabs -->
+  <nav class="tabs">
+    <a href="Dutch Phrases App.html">Prototype</a>
+    <a href="Handoff.html">Handoff</a>
+    <a href="Lessenbank.html">Lessenbank</a>
+    <a class="on" href="dhr. Waffle.html">
+      <span class="slot" style="width:18px;height:18px;" data-wafel="happy" data-grid="1"></span>
+      dhr. Waffle
+    </a>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero-m" data-screen-label="Mascot · Hero">
+    <div class="hero-disc">
+      <div class="halo"></div>
+      <div class="puck"></div>
+      <div class="slot float" style="width:248px;height:248px; position:relative;" data-wafel="happy" data-size="248"></div>
+    </div>
+    <div>
+      <div class="t-eyebrow eyebrow">Mascotte · Brand character</div>
+      <h1>dhr. <em>Waffle</em></h1>
+      <p class="role">
+        De vriendelijke stroopwafel die je door het Nederlands loodst. <strong>Geen strenge docent — een geduldige buurman</strong> die je aanmoedigt, je streak viert en je nooit opjaagt.
+      </p>
+      <div class="traits">
+        <span class="chip chip-caramel">Warm</span>
+        <span class="chip chip-caramel">Geduldig</span>
+        <span class="chip chip-caramel">Nuchter</span>
+        <span class="chip chip-caramel">Aanmoedigend</span>
+      </div>
+      <div class="vitals">
+        <div class="v"><div class="k">Herkomst</div><div class="d">Gouda <small>· est. stroop</small></div></div>
+        <div class="v"><div class="k">Rol</div><div class="d">Je gids</div></div>
+        <div class="v"><div class="k">Palet</div><div class="d">Caramel</div></div>
+        <div class="v"><div class="k">Verschijnt</div><div class="d">1× <small>per scherm</small></div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 01 Expressions -->
+  <section class="s">
+    <div class="head">
+      <div class="num">01</div>
+      <h2>Uitdrukkingen</h2>
+      <p>Eén vorm, een handvol stemmingen. Het gezicht verandert — nooit het lichaam. Elke stemming heeft één duidelijke plek in de flow, zodat dhr. Waffle altijd iets betekent.</p>
+    </div>
+    <div class="moods">
+      <div class="mood"><div class="slot" data-wafel="neutral" data-size="96"></div><div class="nm">Neutraal</div><div class="use">Standaard · header &amp; rust</div></div>
+      <div class="mood"><div class="slot" data-wafel="focus" data-size="96"></div><div class="nm">Gefocust</div><div class="use">Tijdens leren &amp; quiz</div></div>
+      <div class="mood"><div class="slot" data-wafel="happy" data-size="96"></div><div class="nm">Blij</div><div class="use">Goed antwoord · les klaar</div></div>
+      <div class="mood"><div class="slot" data-wafel="proud" data-size="96"></div><div class="nm">Trots</div><div class="use">Streak-mijlpaal</div></div>
+      <div class="mood"><div class="slot" data-wafel="wink" data-size="96"></div><div class="nm">Knipoog</div><div class="use">Tip · speelse hint</div></div>
+      <div class="mood"><div class="slot" data-wafel="thinking" data-size="96"></div><div class="nm">Denkt na</div><div class="use">Laden · "even kijken"</div></div>
+      <div class="mood"><div class="slot" data-wafel="sleepy" data-size="96"></div><div class="nm">Slaperig</div><div class="use">Lange pauze · reminder</div></div>
+      <div class="mood"><div class="slot" data-wafel="oops" data-size="96"></div><div class="nm">Oeps</div><div class="use">Fout antwoord · zacht</div></div>
+    </div>
+  </section>
+
+  <!-- 02 Construction -->
+  <section class="s">
+    <div class="head">
+      <div class="num">02</div>
+      <h2>Opbouw</h2>
+      <p>Een perfecte cirkel, een 7×7 wafelruit, en een minimaal gezicht. Volledig vector — schaalt scherp van 18&nbsp;px favicon tot 248&nbsp;px hero zonder een enkele bitmap.</p>
+    </div>
+    <div class="build">
+      <div class="stage">
+        <div class="grid-ovl"></div>
+        <div class="slot" data-wafel="neutral" data-size="240"></div>
+      </div>
+      <div class="anatomy">
+        <div class="row"><span class="dot" style="background:radial-gradient(circle at 35% 30%, #F0C37C, #A87333);"></span><span class="lab">Lichaam</span><span class="spec">radiale caramel · #F0C37C → #A87333</span></div>
+        <div class="row"><span class="dot" style="background:#3C1E05;"></span><span class="lab">Wafelruit</span><span class="spec">7×7 lijnen · rgba(60,30,5,.32) · 1.2px</span></div>
+        <div class="row"><span class="dot" style="background:#8B5A24;"></span><span class="lab">Rand</span><span class="spec">stroke #8B5A24 · 1.6px</span></div>
+        <div class="row"><span class="dot" style="background:rgba(255,255,255,0.6);"></span><span class="lab">Highlight</span><span class="spec">ellips linksboven · wit 18%</span></div>
+        <div class="row"><span class="dot" style="background:#2A1607;"></span><span class="lab">Ogen &amp; mond</span><span class="spec">#2A1607 · stroke 2.2px</span></div>
+        <div class="row"><span class="dot" style="background:rgba(200,80,60,0.6);"></span><span class="lab">Blos</span><span class="spec">warm rood · 25% · r=3</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 Sizes -->
+  <section class="s">
+    <div class="head">
+      <div class="num">03</div>
+      <h2>Schaal in gebruik</h2>
+      <p>Hoe groter hij is, hoe meer hij "zegt". Klein en stil in de header; groot en blij op het voltooid-scherm. Onder de 24&nbsp;px laten we de blos weg — anders wordt het gezicht te druk.</p>
+    </div>
+    <div class="sizes">
+      <div class="size-item"><div class="slot" data-wafel="neutral" data-size="28" data-grid="1"></div><div class="px">28px</div><div class="ctx">Header, naast begroeting</div></div>
+      <div class="size-item"><div class="slot" data-wafel="neutral" data-size="40"></div><div class="px">40px</div><div class="ctx">Quiz-feedback regel</div></div>
+      <div class="size-item"><div class="slot" data-wafel="focus" data-size="56"></div><div class="px">56px</div><div class="ctx">Flashcard hoek</div></div>
+      <div class="size-item"><div class="slot" data-wafel="focus" data-size="72"></div><div class="px">72px</div><div class="ctx">Lesintro themakaart</div></div>
+      <div class="size-item"><div class="slot" data-wafel="happy" data-size="104"></div><div class="px">104px</div><div class="ctx">Voltooid-scherm, gevierd</div></div>
+    </div>
+  </section>
+
+  <!-- 04 In product -->
+  <section class="s">
+    <div class="head">
+      <div class="num">04</div>
+      <h2>In de app</h2>
+      <p>dhr. Waffle is optioneel — een Tweak. Aan staat hij op vier momenten. Nooit meer dan één per scherm, altijd met genoeg lucht eromheen.</p>
+    </div>
+    <div class="product">
+      <div class="pcard">
+        <div class="vis">
+          <div class="mw" style="top:22px; left:22px;"><div class="slot" data-wafel="neutral" data-size="34" data-grid="1"></div></div>
+          <div style="font-size:11px; color:var(--fg-mute);">Goedemorgen</div>
+          <div style="font-size:16px; font-weight:600;">Sander</div>
+        </div>
+        <div class="body">
+          <div class="where">Home · header</div>
+          <div class="t">Stille begeleider</div>
+          <p>Klein naast de begroeting. Zet de toon zonder aandacht te vragen.</p>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="vis">
+          <div class="mw" style="top:18px; right:16px;"><div class="slot" data-wafel="focus" data-size="64"></div></div>
+          <div style="font-size:10px; color:var(--caramel-2); letter-spacing:0.1em;">THEMA</div>
+          <div style="font-size:17px; font-weight:600; line-height:1.05;">Je mening<br>nuanceren</div>
+        </div>
+        <div class="body">
+          <div class="where">Lesintro · themakaart</div>
+          <div class="t">Klaar voor de les</div>
+          <p>Gefocust, kijkt mee. Geeft de themakaart een gezicht en een gevoel.</p>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="vis" style="align-items:center; justify-content:center;">
+          <div class="slot float" data-wafel="happy" data-size="92"></div>
+        </div>
+        <div class="body">
+          <div class="where">Voltooid · viering</div>
+          <div class="t">Lekker bezig!</div>
+          <p>Groot en blij, met sparkles. Het beloningsmoment van de hele flow.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 Voice -->
+  <section class="s">
+    <div class="head">
+      <div class="num">05</div>
+      <h2>Stem &amp; toon</h2>
+      <p>Kort, warm, nuchter. Hij prijst het werk, niet de persoon. Geen uitroeptekens-regen, geen Engelse hype — gewoon een geruststellende Nederlandse buurman.</p>
+    </div>
+    <div class="voice">
+      <div class="vline"><div class="slot" data-wafel="happy" data-size="52"></div><div><div class="q">"Lekker bezig."</div><div class="en">Nice work — calm, not hyped</div></div></div>
+      <div class="vline"><div class="slot" data-wafel="focus" data-size="52"></div><div><div class="q">"Geen stress, neem je tijd."</div><div class="en">No rush, take your time</div></div></div>
+      <div class="vline"><div class="slot" data-wafel="proud" data-size="52"></div><div><div class="q">"Mooi genuanceerd."</div><div class="en">Nicely nuanced</div></div></div>
+      <div class="vline"><div class="slot" data-wafel="wink" data-size="52"></div><div><div class="q">"Dat valt wel mee, toch?"</div><div class="en">That's not so bad, right?</div></div></div>
+      <div class="vline"><div class="slot" data-wafel="thinking" data-size="52"></div><div><div class="q">"Even doorzetten — bijna."</div><div class="en">Push on — almost there</div></div></div>
+      <div class="vline"><div class="slot" data-wafel="oops" data-size="52"></div><div><div class="q">"Net niet. Probeer nog eens."</div><div class="en">Not quite. Try again</div></div></div>
+    </div>
+  </section>
+
+  <!-- 06 Do / Don't -->
+  <section class="s">
+    <div class="head">
+      <div class="num">06</div>
+      <h2>Wel &amp; niet</h2>
+      <p>Hij werkt omdat hij terughoudend is. Eén per scherm, altijd rond, altijd caramel.</p>
+    </div>
+    <div class="rules">
+      <div class="rule do">
+        <h3><span class="badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round"/></svg></span>Wel doen</h3>
+        <ul>
+          <li>Houd hem rond en compleet — de cirkel is zijn handtekening.</li>
+          <li>Eén dhr. Waffle per scherm, met ruimte eromheen.</li>
+          <li>Kies de stemming die bij het moment past.</li>
+          <li>Laat hem zacht bewegen (bob/float), nooit druk animeren.</li>
+        </ul>
+      </div>
+      <div class="rule dont">
+        <h3><span class="badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg></span>Niet doen</h3>
+        <ul>
+          <li>Niet uitrekken, kantelen of vervormen tot een ovaal.</li>
+          <li>Geen andere kleuren — caramel blijft caramel.</li>
+          <li>Niet als laad-spinner of bij elke micro-actie.</li>
+          <li>Geen drukke gezichten stapelen; max één stemming tegelijk.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="f">
+    <span>Wafel · dhr. Waffle character sheet · v1.0</span>
+    <span><a href="Dutch Phrases App.html">← Terug naar prototype</a></span>
+  </footer>
+
+</div>
+
+<script>
+// ── dhr. Waffle SVG generator ──────────────────────────────
+function wafelSVG(opts) {
+  const { size = 96, mood = 'neutral', uid = 'w', grid = true, blush = true } = opts;
+  const bodyId = 'wb_' + uid, clipId = 'wc_' + uid;
+
+  // waffle grid
+  let lines = '';
+  if (grid) {
+    const n = 7;
+    for (let i = 1; i < n; i++) {
+      const t = (i / n) * 100;
+      lines += `<line x1="${t}" y1="2" x2="${t}" y2="98" stroke="rgba(60,30,5,0.32)" stroke-width="1.2"/>`;
+      lines += `<line x1="2" y1="${t}" x2="98" y2="${t}" stroke="rgba(60,30,5,0.32)" stroke-width="1.2"/>`;
+    }
+  }
+
+  const C = '#2A1607';
+  // eyes
+  let eyes;
+  switch (mood) {
+    case 'happy':
+    case 'proud':
+      // upward smiling arcs
+      eyes = `<path d="M37 55 Q42 50 47 55" stroke="${C}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`
+           + `<path d="M53 55 Q58 50 63 55" stroke="${C}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
+      break;
+    case 'wink':
+      eyes = `<circle cx="42" cy="54" r="2.8" fill="${C}"/>`
+           + `<path d="M53 54 Q58 50 63 54" stroke="${C}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
+      break;
+    case 'sleepy':
+      eyes = `<path d="M37 54 Q42 57 47 54" stroke="${C}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`
+           + `<path d="M53 54 Q58 57 63 54" stroke="${C}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+      break;
+    case 'thinking':
+      // looking up-left
+      eyes = `<circle cx="41" cy="52" r="2.8" fill="${C}"/><circle cx="57" cy="52" r="2.8" fill="${C}"/>`;
+      break;
+    case 'oops':
+      eyes = `<circle cx="42" cy="53" r="3.1" fill="${C}"/><circle cx="58" cy="53" r="3.1" fill="${C}"/>`;
+      break;
+    case 'focus':
+    case 'neutral':
+    default:
+      eyes = `<circle cx="42" cy="54" r="2.8" fill="${C}"/><circle cx="58" cy="54" r="2.8" fill="${C}"/>`;
+  }
+
+  // brows (for focus / thinking)
+  let brows = '';
+  if (mood === 'focus') {
+    brows = `<line x1="37" y1="46" x2="47" y2="47.5" stroke="${C}" stroke-width="1.8" stroke-linecap="round"/>`
+          + `<line x1="63" y1="46" x2="53" y2="47.5" stroke="${C}" stroke-width="1.8" stroke-linecap="round"/>`;
+  } else if (mood === 'thinking') {
+    brows = `<line x1="37" y1="45" x2="46" y2="44" stroke="${C}" stroke-width="1.8" stroke-linecap="round"/>`;
+  }
+
+  // mouth
+  let mouth;
+  switch (mood) {
+    case 'happy':  mouth = `M40 64 Q50 75 60 64`; break;
+    case 'proud':  mouth = `M41 65 Q50 73 59 65`; break;
+    case 'focus':  mouth = `M45 67 Q50 68.5 55 67`; break;
+    case 'wink':   mouth = `M43 65 Q50 71 57 65`; break;
+    case 'thinking': mouth = `M46 67 Q51 67 53 68.5`; break;
+    case 'sleepy': mouth = `M46 67 Q50 70 54 67`; break;
+    case 'oops':   mouth = `M44 69 Q50 65 56 69`; break; // slight frown
+    default:       mouth = `M44 66 Q50 70 56 66`;
+  }
+  const mouthEl = `<path d="${mouth}" stroke="${C}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
+
+  // tiny extras
+  let extra = '';
+  if (mood === 'thinking') {
+    extra = `<circle cx="74" cy="34" r="2.4" fill="${C}" opacity="0.5"/><circle cx="80" cy="27" r="1.6" fill="${C}" opacity="0.35"/>`;
+  }
+
+  const blushEl = blush
+    ? `<circle cx="33" cy="62" r="3" fill="rgba(200,80,60,0.25)"/><circle cx="67" cy="62" r="3" fill="rgba(200,80,60,0.25)"/>`
+    : '';
+
+  return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" style="display:block;width:100%;height:100%;overflow:visible">
+    <defs>
+      <clipPath id="${clipId}"><circle cx="50" cy="50" r="48"/></clipPath>
+      <radialGradient id="${bodyId}" cx="40%" cy="35%" r="70%">
+        <stop offset="0%" stop-color="#F0C37C"/>
+        <stop offset="60%" stop-color="#D9A55E"/>
+        <stop offset="100%" stop-color="#A87333"/>
+      </radialGradient>
+    </defs>
+    <circle cx="50" cy="50" r="48" fill="url(#${bodyId})"/>
+    <g clip-path="url(#${clipId})">${lines}</g>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#8B5A24" stroke-width="1.6"/>
+    <ellipse cx="36" cy="32" rx="18" ry="8" fill="rgba(255,255,255,0.18)"/>
+    ${brows}${eyes}${mouthEl}${blushEl}${extra}
+  </svg>`;
+}
+
+document.querySelectorAll('[data-wafel]').forEach((el, i) => {
+  const mood = el.dataset.wafel || 'neutral';
+  const size = +el.dataset.size || 96;
+  // drop blush below ~24px so the face stays clean
+  const blush = el.dataset.grid === '1' ? false : size >= 28;
+  const grid = el.dataset.grid === '1' ? true : size >= 22;
+  el.innerHTML = wafelSVG({ size, mood, uid: 'm' + i, grid: true, blush });
+});
+</script>
+
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#0B0F0E"/>
+    <circle cx="50" cy="50" r="30" fill="#D9A55E"/>
+    <circle cx="43" cy="50" r="2.4" fill="#2A1607"/><circle cx="57" cy="50" r="2.4" fill="#2A1607"/>
+    <path d="M42 58 Q50 66 58 58" stroke="#2A1607" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  </svg>
+</template>
+
+</body>
+</html>

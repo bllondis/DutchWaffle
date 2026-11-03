@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1600">
+<title>Dutch — phrase learning</title>
+<link rel="stylesheet" href="styles/tokens.css">
+<link rel="stylesheet" href="styles/app.css">
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="data/content.js"></script>
+<script type="text/babel" src="components/primitives.jsx"></script>
+<script type="text/babel" src="components/screens.jsx"></script>
+<script type="text/babel" src="components/tweaks-panel.jsx"></script>
+
+<script type="text/babel" data-presets="env,react">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "theme": "dark",
+  "cardMetaphor": "flip",
+  "fontScale": 105,
+  "mascot": true
+}/*EDITMODE-END*/;
+
+function App() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [heroScreen, setHeroScreen] = React.useState('home');
+
+  // apply theme + scale to <html>
+  React.useEffect(() => {
+    document.documentElement.classList.toggle('light', tweaks.theme === 'light');
+    document.documentElement.style.setProperty('--scale', String(tweaks.fontScale / 100));
+  }, [tweaks.theme, tweaks.fontScale]);
+
+  // sync hero screen with cardMetaphor when on a flash screen
+  React.useEffect(() => {
+    if (heroScreen === 'flash-stack' || heroScreen === 'flash-flip') {
+      setHeroScreen(tweaks.cardMetaphor === 'flip' ? 'flash-flip' : 'flash-stack');
+    }
+  }, [tweaks.cardMetaphor]);
+
+  // helper: render the right screen by key
+  const renderScreen = (key, navigable = false) => {
+    const onOpen = navigable ? setHeroScreen : null;
+    switch (key) {
+      case 'home':         return <HomeScreen tweaks={tweaks} onOpen={onOpen}/>;
+      case 'intro':        return <IntroScreen tweaks={tweaks} onOpen={onOpen}/>;
+      case 'flash-stack':  return <FlashStack tweaks={tweaks} onOpen={onOpen}/>;
+      case 'flash-flip':   return <FlashFlip tweaks={tweaks} onOpen={onOpen}/>;
+      case 'quiz':         return <QuizScreen tweaks={tweaks} onOpen={onOpen}/>;
+      case 'complete':     return <CompleteScreen tweaks={tweaks} onOpen={onOpen}/>;
+      default:             return <HomeScreen tweaks={tweaks} onOpen={onOpen}/>;
+    }
+  };
+
+  // canvas: 5 screens side by side. If cardMetaphor=flip, flashcard slot uses flip variant.
+  const canvasScreens = [
+    { num: '01', label: 'Home — niveau picker', key: 'home' },
+    { num: '02', label: 'Lesintro — thema',     key: 'intro' },
+    { num: '03', label: tweaks.cardMetaphor === 'flip' ? 'Flashcard — flip' : 'Flashcard — stack', key: tweaks.cardMetaphor === 'flip' ? 'flash-flip' : 'flash-stack' },
+    { num: '04', label: 'Quiz — meerkeuze',     key: 'quiz' },
+    { num: '05', label: 'Voltooid',             key: 'complete' },
+  ];
+
+  return (
+    <div className="canvas">
+      {/* Header */}
+      <div className="canvas-header">
+        <div>
+          <div className="t-eyebrow" style={{ color: 'var(--accent)', marginBottom: 16 }}>
+            Wafel · Dutch phrase learning · Concept v1
+          </div>
+          <h1 className="canvas-title">
+            Spreek Nederlands<br/>
+            <em>met nuance.</em>
+          </h1>
+        </div>
+        <div className="canvas-sub">
+          <p>A B1→B2 phrase-learning app rooted in <em>Nederlands op niveau</em>. Five core screens, dark-first Scandinavian, with two flashcard metaphors to compare.</p>
+          <div style={{ display: 'flex', gap: 8, marginTop: 14, flexWrap: 'wrap' }}>
+            <span className="chip">B1 → B2</span>
+            <span className="chip">8 zinnen / les</span>
+            <span className="chip chip-accent">Donker thema</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Screen grid */}
+      <div className="screen-grid">
+        {canvasScreens.map(s => (
+          <ScreenSlot key={s.key} num={s.num} label={s.label}>
+            <div className="phone">
+              <div className="phone-screen">
+                <div className="notch"/>
+                <div className="status-bar">
+                  <span style={{ fontVariantNumeric: 'tabular-nums' }}>9:41</span>
+                  <div className="icons">
+                    <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="0.7" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="0.7" fill="currentColor"/><rect x="10" y="2.8" width="3" height="9.2" rx="0.7" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="0.7" fill="currentColor" opacity="0.4"/></svg>
+                    <svg width="16" height="11" viewBox="0 0 16 11"><path d="M8 2.5a9 9 0 0 1 6 2.3l1.4-1.4A11 11 0 0 0 0 3.4L1.4 4.8A9 9 0 0 1 8 2.5z" fill="currentColor"/><path d="M8 6.2a5 5 0 0 1 3.5 1.4l1.4-1.4a7 7 0 0 0-9.8 0l1.4 1.4A5 5 0 0 1 8 6.2z" fill="currentColor"/><circle cx="8" cy="9.8" r="1.3" fill="currentColor"/></svg>
+                    <svg width="26" height="13" viewBox="0 0 26 13"><rect x="0.6" y="0.6" width="22" height="11.8" rx="3" stroke="currentColor" fill="none" strokeOpacity="0.5"/><rect x="2" y="2" width="19" height="9" rx="1.6" fill="currentColor"/><rect x="23.5" y="4.5" width="1.8" height="4" rx="0.8" fill="currentColor" opacity="0.5"/></svg>
+                  </div>
+                </div>
+                {renderScreen(s.key, false)}
+                <div className="home-ind"/>
+              </div>
+            </div>
+          </ScreenSlot>
+        ))}
+      </div>
+
+      {/* Hero — clickable prototype */}
+      <div className="hero" data-screen-label="Hero · Clickable prototype">
+        <div className="hero-left">
+          <div className="hero-tag">Clickable prototype</div>
+          <h2 className="hero-h">Probeer de hele flow.</h2>
+          <p className="hero-p">
+            Klik door van home → les → flashcards → quiz → voltooid.
+            Wissel via Tweaks tussen <em style={{ color: 'var(--accent)' }}>stack</em> en <em style={{ color: 'var(--accent)' }}>flip</em> metaforen.
+          </p>
+          <div className="hero-ctrl">
+            {[
+              ['home', 'Home'],
+              ['intro', 'Lesintro'],
+              [tweaks.cardMetaphor === 'flip' ? 'flash-flip' : 'flash-stack', 'Flashcard'],
+              ['quiz', 'Quiz'],
+              ['complete', 'Voltooid'],
+            ].map(([k, lbl]) => (
+              <button
+                key={k}
+                className={'btn ' + (heroScreen === k ? 'btn-primary' : 'btn-ghost')}
+                onClick={() => setHeroScreen(k)}
+              >{lbl}</button>
+            ))}
+          </div>
+          <div className="t-meta" style={{ marginTop: 8 }}>
+            Tip: alles in de prototype is klikbaar — volg het pad zoals een echte gebruiker.
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div className="phone">
+            <div className="phone-screen">
+              <div className="notch"/>
+              <div className="status-bar">
+                <span style={{ fontVariantNumeric: 'tabular-nums' }}>9:41</span>
+                <div className="icons">
+                  <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="0.7" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="0.7" fill="currentColor"/><rect x="10" y="2.8" width="3" height="9.2" rx="0.7" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="0.7" fill="currentColor" opacity="0.4"/></svg>
+                  <svg width="16" height="11" viewBox="0 0 16 11"><path d="M8 2.5a9 9 0 0 1 6 2.3l1.4-1.4A11 11 0 0 0 0 3.4L1.4 4.8A9 9 0 0 1 8 2.5z" fill="currentColor"/><path d="M8 6.2a5 5 0 0 1 3.5 1.4l1.4-1.4a7 7 0 0 0-9.8 0l1.4 1.4A5 5 0 0 1 8 6.2z" fill="currentColor"/><circle cx="8" cy="9.8" r="1.3" fill="currentColor"/></svg>
+                  <svg width="26" height="13" viewBox="0 0 26 13"><rect x="0.6" y="0.6" width="22" height="11.8" rx="3" stroke="currentColor" fill="none" strokeOpacity="0.5"/><rect x="2" y="2" width="19" height="9" rx="1.6" fill="currentColor"/><rect x="23.5" y="4.5" width="1.8" height="4" rx="0.8" fill="currentColor" opacity="0.5"/></svg>
+                </div>
+              </div>
+              {renderScreen(heroScreen, true)}
+              <div className="home-ind"/>
+            </div>
+          </div>
+        </div>
+
+        <div className="hero-right" style={{ alignItems: 'flex-end', textAlign: 'right' }}>
+          <div className="hero-tag" style={{ color: 'var(--caramel-2)' }}>Two flashcard metaphors</div>
+          <h2 className="hero-h" style={{ maxWidth: 360 }}>Stack of flip — kies wat past.</h2>
+          <p className="hero-p" style={{ marginLeft: 'auto' }}>
+            <strong style={{ color: 'var(--fg)' }}>Stack</strong> toont twee komende kaarten erachter — goed voor doorvliegen en momentum.
+            <strong style={{ color: 'var(--fg)' }}> Flip</strong> verbergt de betekenis tot je kantelt — beter voor actief ophalen.
+          </p>
+          <div className="hero-ctrl" style={{ justifyContent: 'flex-end' }}>
+            <button
+              className={'btn ' + (tweaks.cardMetaphor === 'stack' ? 'btn-primary' : 'btn-ghost')}
+              onClick={() => setTweak('cardMetaphor', 'stack')}>Stack</button>
+            <button
+              className={'btn ' + (tweaks.cardMetaphor === 'flip' ? 'btn-primary' : 'btn-ghost')}
+              onClick={() => setTweak('cardMetaphor', 'flip')}>Flip</button>
+          </div>
+        </div>
+      </div>
+
+      {/* Notes / system rationale */}
+      <div style={{
+        maxWidth: 920, padding: '32px 28px', borderRadius: 24,
+        background: 'var(--surface)', border: '1px solid var(--line)',
+        display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 28,
+      }}>
+        <div>
+          <div className="t-eyebrow" style={{ color: 'var(--accent)' }}>System</div>
+          <h3 style={{ fontSize: 18, fontWeight: 600, margin: '8px 0' }}>Donker, kalm, gefocust</h3>
+          <p className="t-body" style={{ fontSize: 13 }}>
+            Charcoal-green base (#0B0F0E) met één teal accent en warme caramel voor streaks/Wafel.
+            Urbanist 600 voor display, 500 voor body. Geen gradients buiten één lesintro.
+          </p>
+        </div>
+        <div>
+          <div className="t-eyebrow" style={{ color: 'var(--caramel-2)' }}>Inhoud</div>
+          <h3 style={{ fontSize: 18, fontWeight: 600, margin: '8px 0' }}>Echte B1+ uitdrukkingen</h3>
+          <p className="t-body" style={{ fontSize: 13 }}>
+            Frases uit het thema <em>"Je mening nuanceren"</em> — Enerzijds/anderzijds, Dat valt wel mee, Daar zit wat in.
+            Met IPA, betekenis, en een voorbeeldzin in context.
+          </p>
+        </div>
+        <div>
+          <div className="t-eyebrow">Tweaks</div>
+          <h3 style={{ fontSize: 18, fontWeight: 600, margin: '8px 0' }}>Vergelijk live</h3>
+          <p className="t-body" style={{ fontSize: 13 }}>
+            Klik rechtsonder. Wissel licht/donker, stack/flip, fontschaal en de Stroopwafel-mascotte —
+            de hele canvas en prototype updaten meteen.
+          </p>
+        </div>
+      </div>
+
+      {/* Tweaks panel */}
+      <TweaksPanel title="Tweaks">
+        <TweakSection title="Thema">
+          <TweakRadio
+            value={tweaks.theme}
+            onChange={v => setTweak('theme', v)}
+            options={[{value:'dark',label:'Donker'},{value:'light',label:'Licht'}]}
+          />
+        </TweakSection>
+        <TweakSection title="Flashcard metafoor">
+          <TweakRadio
+            value={tweaks.cardMetaphor}
+            onChange={v => setTweak('cardMetaphor', v)}
+            options={[{value:'stack',label:'Stack'},{value:'flip',label:'Flip'}]}
+          />
+        </TweakSection>
+        <TweakSection title="Tekstgrootte">
+          <TweakSlider
+            value={tweaks.fontScale}
+            onChange={v => setTweak('fontScale', v)}
+            min={85} max={120} step={5}
+            format={v => v + '%'}
+          />
+        </TweakSection>
+        <TweakSection title="Stroopwafel-mascotte">
+          <TweakToggle
+            value={tweaks.mascot}
+            onChange={v => setTweak('mascot', v)}
+          />
+        </TweakSection>
+      </TweaksPanel>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
