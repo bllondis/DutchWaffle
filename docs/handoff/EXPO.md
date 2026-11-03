@@ -5,7 +5,7 @@
 - React Native 0.74 with new architecture support
 - Expo Router optional (we use `@react-navigation/native` instead for this v1)
 - EAS Build + EAS Submit for store delivery
-- OTA updates via `expo-updates` — ship bug fixes without store review
+- OTA updates via `expo-updates` – ship bug fixes without store review
 
 ## Required plugins (in `app.json`)
 

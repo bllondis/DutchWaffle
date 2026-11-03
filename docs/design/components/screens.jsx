@@ -1,9 +1,9 @@
-// screens.jsx — all five screens for the Dutch app
+// screens.jsx – all five screens for the Dutch app
 
 const C = window.DUTCH_CONTENT;
 
 // ────────────────────────────────────────────────────────────
-// 1. HOME — level picker + continue card
+// 1. HOME – level picker + continue card
 // ────────────────────────────────────────────────────────────
 function HomeScreen({ tweaks, onOpen }) {
   return (
@@ -94,7 +94,7 @@ function HomeScreen({ tweaks, onOpen }) {
           })}
         </div>
 
-        {/* Themes — explore */}
+        {/* Themes – explore */}
         <div className="t-eyebrow" style={{ marginTop: 28, marginBottom: 12, paddingLeft: 4 }}>Thema's</div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
           {C.themes.slice(0, 4).map(t => (
@@ -141,7 +141,7 @@ function TabBar({ active = 'home' }) {
 }
 
 // ────────────────────────────────────────────────────────────
-// 2. LESSON INTRO — theme card with phrase preview
+// 2. LESSON INTRO – theme card with phrase preview
 // ────────────────────────────────────────────────────────────
 function IntroScreen({ tweaks, onOpen }) {
   const lesson = C.lesson;
@@ -245,7 +245,7 @@ function IntroScreen({ tweaks, onOpen }) {
 }
 
 // ────────────────────────────────────────────────────────────
-// 3a. FLASHCARD — STACK variant
+// 3a. FLASHCARD – STACK variant
 // ────────────────────────────────────────────────────────────
 function FlashStack({ tweaks, onOpen }) {
   const lesson = C.lesson;
@@ -344,7 +344,7 @@ function FlashStack({ tweaks, onOpen }) {
 }
 
 // ────────────────────────────────────────────────────────────
-// 3b. FLASHCARD — FLIP variant
+// 3b. FLASHCARD – FLIP variant
 // ────────────────────────────────────────────────────────────
 function FlashFlip({ tweaks, onOpen }) {
   const lesson = C.lesson;
@@ -507,7 +507,7 @@ function QuizScreen({ tweaks, onOpen }) {
           }}>
             <div className="t-eyebrow" style={{ color: 'var(--accent)' }}>Goed zo!</div>
             <div className="t-body" style={{ fontSize: 13, marginTop: 4 }}>
-              <strong style={{ color: 'var(--fg)' }}>{target.nl}</strong> — {target.note}
+              <strong style={{ color: 'var(--fg)' }}>{target.nl}</strong> – {target.note}
             </div>
           </div>
         )}

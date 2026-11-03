@@ -1,4 +1,4 @@
-// Dutch content — B1→B2 phrases inspired by "Nederlands op niveau"
+// Dutch content – B1→B2 phrases inspired by "Nederlands op niveau"
 // Each phrase: Dutch, IPA (simplified), English, theme, example sentence, difficulty
 
 window.DUTCH_CONTENT = {
@@ -8,7 +8,7 @@ window.DUTCH_CONTENT = {
       code: 'B1',
       name: 'Onderweg',
       tagline: 'Fluent essentials',
-      desc: 'Everyday fluency — opinions, work, routines.',
+      desc: 'Everyday fluency – opinions, work, routines.',
       lessons: 12,
       completed: 4,
       minutes: 8,
@@ -88,7 +88,7 @@ window.DUTCH_CONTENT = {
         nl: 'Dat valt wel mee',
         ipa: '/dɑt vɑlt ʋɛl ˈmeː/',
         en: "It's not that bad / better than expected",
-        note: 'Idiomatic understatement — a signature Dutch response.',
+        note: 'Idiomatic understatement – a signature Dutch response.',
         example: {
           nl: 'De deadline is krap, maar dat valt wel mee.',
           en: 'The deadline is tight, but it’s not so bad.',
@@ -108,7 +108,7 @@ window.DUTCH_CONTENT = {
         nl: 'Dat neemt niet weg dat…',
         ipa: '/dɑt neːmt nit vɛx dɑt/',
         en: 'That said… / that doesn’t change the fact that…',
-        note: 'Concessive connector — advanced register.',
+        note: 'Concessive connector – advanced register.',
         example: {
           nl: 'Het plan is goed. Dat neemt niet weg dat we risico’s moeten benoemen.',
           en: 'The plan is good. That said, we should name the risks.',
@@ -130,8 +130,8 @@ window.DUTCH_CONTENT = {
         en: "You've got a point",
         note: 'Conceding to someone else’s argument.',
         example: {
-          nl: 'Daar zit wat in — we kunnen het beter uitstellen.',
-          en: 'You’ve got a point — better to postpone it.',
+          nl: 'Daar zit wat in – we kunnen het beter uitstellen.',
+          en: 'You’ve got a point – better to postpone it.',
         },
       },
     ],

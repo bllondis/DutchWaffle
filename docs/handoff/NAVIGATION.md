@@ -2,7 +2,7 @@
 
 ```
 RootStack (NativeStack)
-├── Home                  (root tab — gestureEnabled: true)
+├── Home                  (root tab – gestureEnabled: true)
 ├── LessonIntro           (push from Home, gestureEnabled: true)
 ├── Flashcard             (replace from Intro, gestureEnabled: FALSE)
 ├── Quiz                  (replace from Flashcard, gestureEnabled: FALSE)

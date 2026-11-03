@@ -1,5 +1,5 @@
 /**
- * Wafel design tokens — single source of truth.
+ * DutchWaffle design tokens – single source of truth.
  * Read via useTheme(). Never hardcode colors, spacing, or fonts elsewhere.
  */
 

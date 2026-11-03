@@ -50,7 +50,7 @@ const meningLesson: Lesson = {
       nl: 'Dat valt wel mee',
       ipa: '/dɑt vɑlt ʋɛl ˈmeː/',
       en: "It's not that bad",
-      note: 'Idiomatic understatement — a signature Dutch response.',
+      note: 'Idiomatic understatement – a signature Dutch response.',
       example: {
         nl: 'De deadline is krap, maar dat valt wel mee.',
         en: 'The deadline is tight, but it is not that bad.',
@@ -74,7 +74,7 @@ const meningLesson: Lesson = {
       nl: 'Dat neemt niet weg dat…',
       ipa: '/dɑt neːmt nit vɛx dɑt/',
       en: "That said… / that doesn't change the fact that…",
-      note: 'Concessive connector — advanced register.',
+      note: 'Concessive connector – advanced register.',
       example: {
         nl: 'Het plan is goed. Dat neemt niet weg dat we risico\'s moeten benoemen.',
         en: 'The plan is good. That said, we should name the risks.',
@@ -100,8 +100,8 @@ const meningLesson: Lesson = {
       en: "You've got a point",
       note: 'Conceding to another argument.',
       example: {
-        nl: 'Daar zit wat in — we kunnen het beter uitstellen.',
-        en: 'You have a point — better to postpone.',
+        nl: 'Daar zit wat in – we kunnen het beter uitstellen.',
+        en: 'You have a point – better to postpone.',
       },
       audio: 'https://cdn.wafel.app/audio/mening-01-daarzitwatin.mp3',
     },

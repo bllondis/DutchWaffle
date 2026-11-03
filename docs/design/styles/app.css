@@ -1,4 +1,4 @@
-/* Dutch — app styles. Dark-first, minimal, Scandinavian. */
+/* Dutch – app styles. Dark-first, minimal, Scandinavian. */
 
 :root {
   /* Deep forest tokens for dark learning UI */
@@ -18,7 +18,7 @@
   --accent-2:  #A7E3CB;   /* highlight tint */
   --accent-ink:#0B2F24;   /* used on accent surfaces */
 
-  /* Stroopwafel caramel — warm, deliberate contrast */
+  /* Stroopwafel caramel – warm, deliberate contrast */
   --caramel:   #D9A55E;
   --caramel-2: #F0C37C;
   --caramel-ink:#2A1A07;
@@ -234,7 +234,7 @@ html, body {
   border: 1px solid var(--line);
 }
 
-/* subtle bg texture — concentric rings behind hero screens */
+/* subtle bg texture – concentric rings behind hero screens */
 .bg-rings {
   position: absolute; inset: 0; pointer-events: none;
   background-image:

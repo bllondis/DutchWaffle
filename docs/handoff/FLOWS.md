@@ -1,6 +1,6 @@
 # User Flows
 
-## Flow 1 — First-time user, no auth (v1.0 default)
+## Flow 1 – First-time user, no auth (v1.0 default)
 
 Since v1.0 has no auth, every user starts at Home with seeded data.
 
@@ -47,7 +47,7 @@ Since v1.0 has no auth, every user starts at Home with seeded data.
 - Step 11: `quiz_answered { correct, ms_to_answer }` event
 - Step 13: `lesson_completed { score, streak }` event
 
-## Flow 2 — Returning user, mid-lesson
+## Flow 2 – Returning user, mid-lesson
 
 ```
 1. App launch → Splash → Home
@@ -60,7 +60,7 @@ Since v1.0 has no auth, every user starts at Home with seeded data.
 - `progress.<lessonId>` → `{ idx, marks }`
 - `streak.current`, `streak.lastDate`
 
-## Flow 3 — Exit mid-lesson
+## Flow 3 – Exit mid-lesson
 
 ```
 1. User on Flashcard idx 3 (3 marks logged)
@@ -69,12 +69,12 @@ Since v1.0 has no auth, every user starts at Home with seeded data.
 4. Tap "Stoppen"
 5. State saved: progress.<lessonId> = { idx: 3, marks: {...} }
 6. navigation.popToTop() → Home
-7. Continue card now reflects: "Verder gaan — kaart 4/8"
+7. Continue card now reflects: "Verder gaan – kaart 4/8"
 ```
 
 If user taps "Annuleren": dialog dismisses, stay on Flashcard.
 
-## Flow 4 — Wrong answer (quiz)
+## Flow 4 – Wrong answer (quiz)
 
 ```
 1. User picks option B (incorrect)
@@ -90,7 +90,7 @@ If user taps "Annuleren": dialog dismisses, stay on Flashcard.
 
 **No retry.** Wrong answers reduce score; user can review in Complete screen.
 
-## Flow 5 — Offline first launch
+## Flow 5 – Offline first launch
 
 ```
 1. User installs app, no internet
@@ -103,13 +103,13 @@ If user taps "Annuleren": dialog dismisses, stay on Flashcard.
    - GET /streak to sync server-side count
 ```
 
-## Flow 6 — Audio fails
+## Flow 6 – Audio fails
 
 ```
 1. User on Flashcard
 2. Taps speaker icon
 3. expo-av throws (corrupt cache or 404)
-4. Silent failure — no toast
+4. Silent failure – no toast
 5. Icon briefly shows 'unavailable' state (200ms)
 6. User can continue without audio
 ```

@@ -97,7 +97,7 @@ export default function FlashcardScreen() {
                 </Text>
               </View>
 
-              {/* Scrollable content — flex:1 ensures it fills space between chip and hint */}
+              {/* Scrollable content – flex:1 ensures it fills space between chip and hint */}
               <ScrollView
                 style={{ flex: 1, marginTop: t.spacing._4 }}
                 contentContainerStyle={{ gap: 10 }}

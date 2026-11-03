@@ -23,13 +23,13 @@ Landing screen after splash. Resume current lesson at a glance, pick a level, br
 **Layout (top → bottom)**
 1. Header strip: Stroopwafel avatar · "Goedemorgen, Sander" · streak chip (caramel) · bell icon
 2. Continue card (accent gradient): eyebrow "VERDER GAAN" → lesson title → progress bar → time/level meta → CTA chevron
-3. Section "Jouw niveau" — 3 `LevelRow` (B1, B1+, B2)
-4. Section "Thema's" — 2×2 grid of `ThemeCard`
+3. Section "Jouw niveau" – 3 `LevelRow` (B1, B1+, B2)
+4. Section "Thema's" – 2×2 grid of `ThemeCard`
 5. Tab bar (Home / Leren / Doel / Mij)
 
 **Interactions**
 - Tap Continue card → `navigate('LessonIntro', { lessonId })`
-- Tap LevelRow → filter lessons by level (v1.1 — for now: navigate to first lesson of level)
+- Tap LevelRow → filter lessons by level (v1.1 – for now: navigate to first lesson of level)
 - Tap ThemeCard → list of lessons in theme (v1.1 stub)
 - Tap bell → notifications modal (v1.1 stub)
 
@@ -60,11 +60,11 @@ Frame a lesson before commitment. Show theme, scope, estimated time, list of phr
    - Subtitle (body)
    - Stroopwafel mascot (top-right corner, focus mood, optional)
    - Metadata strip: time · phrases · new words (separated by 1px divider)
-3. Section "Wat ga je leren" — list of first 4 phrases, "+N meer" link
+3. Section "Wat ga je leren" – list of first 4 phrases, "+N meer" link
 4. CTA bar (sticky bottom): "Begin de les" → primary button
 
 **Interactions**
-- Back → `navigation.goBack()` (no confirm — no progress yet)
+- Back → `navigation.goBack()` (no confirm – no progress yet)
 - Bookmark → toggle saved state (v1.1)
 - CTA → `navigation.replace('Flashcard', { lessonId })`
 
@@ -121,7 +121,7 @@ Active recall. Show NL phrase → user picks correct EN translation from 4 optio
 - Distractors generated client-side from other phrases in lesson (deterministic seed by phrase ID)
 
 **Layout**
-1. Header: × · ProgressBar · streak chip (caramel) — keeps user feeling momentum
+1. Header: × · ProgressBar · streak chip (caramel) – keeps user feeling momentum
 2. Eyebrow "Vraag 5 / 8" (caramel-2)
 3. Title "Wat betekent deze uitdrukking?"
 4. Prompt card: phrase (title) · IPA (mono) · speaker icon
@@ -159,7 +159,7 @@ Reward completion. Show stats. Encourage continuation.
 2. Hero: Stroopwafel (large, happy) with sparkle accents · eyebrow "LES VOLTOOID" · display "Lekker bezig, Sander!"
 3. Body text confirming theme learned
 4. 3 stat tiles (grid): Phrases · Score % · Streak (with flame icon)
-5. Section "Vandaag geleerd" — list of phrases with check icons
+5. Section "Vandaag geleerd" – list of phrases with check icons
 6. CTA bar: "Klaar" (ghost) + "Volgende les" (primary)
 
 **Interactions**
@@ -173,7 +173,7 @@ Reward completion. Show stats. Encourage continuation.
 
 ---
 
-## System screens (v1.1 — stub navigation, skip impl)
+## System screens (v1.1 – stub navigation, skip impl)
 
 | ID | Route | Description |
 |----|-------|-------------|

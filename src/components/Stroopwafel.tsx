@@ -6,7 +6,7 @@ import Svg, {
 type Mood  = 'neutral' | 'happy' | 'focus';
 type Props = { size?: number; mood?: Mood };
 
-// Counter for unique SVG IDs — avoids gradient conflicts when
+// Counter for unique SVG IDs – avoids gradient conflicts when
 // multiple Stroopwafel instances exist on the same web page.
 let _idCounter = 0;
 

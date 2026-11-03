@@ -1,4 +1,4 @@
-# Wafel – spreek Nederlands met nuance
+# DutchWaffle – spreek Nederlands met nuance
 
 A mobile app for adults learning Dutch at **B1–B2 level**: the stage where textbooks run out and you need the phrases people actually use at work, with neighbours and in conversations. Short themed lessons, flip flashcards, quick quizzes, and a stroopwafel called **dhr. Waffle** who keeps you company.
 
@@ -6,7 +6,7 @@ A mobile app for adults learning Dutch at **B1–B2 level**: the stage where tex
 
 Expo · React Native · TypeScript · iOS and Android
 
-![Wafel – five core screens](docs/screens/screens.jpg)
+![DutchWaffle – five core screens](docs/screens/screens.jpg)
 
 > Status: in development. The lesson flow works end to end with locally seeded content; audio and a backend are next.
 
@@ -14,7 +14,7 @@ Expo · React Native · TypeScript · iOS and Android
 
 ## The idea
 
-Most language apps stop at vocabulary. At B1 the real gap is different: knowing how to *hedge*, *disagree politely* or *nuance an opinion*. Wafel is built around phrases, not words. Each one comes with:
+Most language apps stop at vocabulary. At B1 the real gap is different: knowing how to *hedge*, *disagree politely* or *nuance an opinion*. DutchWaffle is built around phrases, not words. Each one comes with:
 
 - the Dutch phrase, IPA pronunciation and English meaning
 - a usage note explaining *when* to use it

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1600">
-<title>Dutch — phrase learning</title>
+<title>Dutch – phrase learning</title>
 <link rel="stylesheet" href="styles/tokens.css">
 <link rel="stylesheet" href="styles/app.css">
 
@@ -60,10 +60,10 @@ function App() {
 
   // canvas: 5 screens side by side. If cardMetaphor=flip, flashcard slot uses flip variant.
   const canvasScreens = [
-    { num: '01', label: 'Home — niveau picker', key: 'home' },
-    { num: '02', label: 'Lesintro — thema',     key: 'intro' },
-    { num: '03', label: tweaks.cardMetaphor === 'flip' ? 'Flashcard — flip' : 'Flashcard — stack', key: tweaks.cardMetaphor === 'flip' ? 'flash-flip' : 'flash-stack' },
-    { num: '04', label: 'Quiz — meerkeuze',     key: 'quiz' },
+    { num: '01', label: 'Home – niveau picker', key: 'home' },
+    { num: '02', label: 'Lesintro – thema',     key: 'intro' },
+    { num: '03', label: tweaks.cardMetaphor === 'flip' ? 'Flashcard – flip' : 'Flashcard – stack', key: tweaks.cardMetaphor === 'flip' ? 'flash-flip' : 'flash-stack' },
+    { num: '04', label: 'Quiz – meerkeuze',     key: 'quiz' },
     { num: '05', label: 'Voltooid',             key: 'complete' },
   ];
 
@@ -73,7 +73,7 @@ function App() {
       <div className="canvas-header">
         <div>
           <div className="t-eyebrow" style={{ color: 'var(--accent)', marginBottom: 16 }}>
-            Wafel · Dutch phrase learning · Concept v1
+            DutchWaffle · Dutch phrase learning · Concept v1
           </div>
           <h1 className="canvas-title">
             Spreek Nederlands<br/>
@@ -113,7 +113,7 @@ function App() {
         ))}
       </div>
 
-      {/* Hero — clickable prototype */}
+      {/* Hero – clickable prototype */}
       <div className="hero" data-screen-label="Hero · Clickable prototype">
         <div className="hero-left">
           <div className="hero-tag">Clickable prototype</div>
@@ -138,7 +138,7 @@ function App() {
             ))}
           </div>
           <div className="t-meta" style={{ marginTop: 8 }}>
-            Tip: alles in de prototype is klikbaar — volg het pad zoals een echte gebruiker.
+            Tip: alles in de prototype is klikbaar – volg het pad zoals een echte gebruiker.
           </div>
         </div>
 
@@ -162,10 +162,10 @@ function App() {
 
         <div className="hero-right" style={{ alignItems: 'flex-end', textAlign: 'right' }}>
           <div className="hero-tag" style={{ color: 'var(--caramel-2)' }}>Two flashcard metaphors</div>
-          <h2 className="hero-h" style={{ maxWidth: 360 }}>Stack of flip — kies wat past.</h2>
+          <h2 className="hero-h" style={{ maxWidth: 360 }}>Stack of flip – kies wat past.</h2>
           <p className="hero-p" style={{ marginLeft: 'auto' }}>
-            <strong style={{ color: 'var(--fg)' }}>Stack</strong> toont twee komende kaarten erachter — goed voor doorvliegen en momentum.
-            <strong style={{ color: 'var(--fg)' }}> Flip</strong> verbergt de betekenis tot je kantelt — beter voor actief ophalen.
+            <strong style={{ color: 'var(--fg)' }}>Stack</strong> toont twee komende kaarten erachter – goed voor doorvliegen en momentum.
+            <strong style={{ color: 'var(--fg)' }}> Flip</strong> verbergt de betekenis tot je kantelt – beter voor actief ophalen.
           </p>
           <div className="hero-ctrl" style={{ justifyContent: 'flex-end' }}>
             <button
@@ -188,7 +188,7 @@ function App() {
           <div className="t-eyebrow" style={{ color: 'var(--accent)' }}>System</div>
           <h3 style={{ fontSize: 18, fontWeight: 600, margin: '8px 0' }}>Donker, kalm, gefocust</h3>
           <p className="t-body" style={{ fontSize: 13 }}>
-            Charcoal-green base (#0B0F0E) met één teal accent en warme caramel voor streaks/Wafel.
+            Charcoal-green base (#0B0F0E) met één teal accent en warme caramel voor streaks/dhr. Waffle.
             Urbanist 600 voor display, 500 voor body. Geen gradients buiten één lesintro.
           </p>
         </div>
@@ -196,7 +196,7 @@ function App() {
           <div className="t-eyebrow" style={{ color: 'var(--caramel-2)' }}>Inhoud</div>
           <h3 style={{ fontSize: 18, fontWeight: 600, margin: '8px 0' }}>Echte B1+ uitdrukkingen</h3>
           <p className="t-body" style={{ fontSize: 13 }}>
-            Frases uit het thema <em>"Je mening nuanceren"</em> — Enerzijds/anderzijds, Dat valt wel mee, Daar zit wat in.
+            Frases uit het thema <em>"Je mening nuanceren"</em> – Enerzijds/anderzijds, Dat valt wel mee, Daar zit wat in.
             Met IPA, betekenis, en een voorbeeldzin in context.
           </p>
         </div>
@@ -204,7 +204,7 @@ function App() {
           <div className="t-eyebrow">Tweaks</div>
           <h3 style={{ fontSize: 18, fontWeight: 600, margin: '8px 0' }}>Vergelijk live</h3>
           <p className="t-body" style={{ fontSize: 13 }}>
-            Klik rechtsonder. Wissel licht/donker, stack/flip, fontschaal en de Stroopwafel-mascotte —
+            Klik rechtsonder. Wissel licht/donker, stack/flip, fontschaal en de Stroopwafel-mascotte –
             de hele canvas en prototype updaten meteen.
           </p>
         </div>

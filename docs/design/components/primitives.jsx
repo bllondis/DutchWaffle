@@ -1,7 +1,7 @@
-// primitives.jsx — shared bits: Stroopwafel mascot, icons, phone frame
+// primitives.jsx – shared bits: Stroopwafel mascot, icons, phone frame
 
 // ============================================================
-// Stroopwafel mascot — flat SVG (caramel, waffle grid, simple face)
+// Stroopwafel mascot – flat SVG (caramel, waffle grid, simple face)
 // ============================================================
 function Stroopwafel({ size = 48, mood = 'neutral', style = {} }) {
   const S = size;
@@ -55,7 +55,7 @@ function Stroopwafel({ size = 48, mood = 'neutral', style = {} }) {
 }
 
 // ============================================================
-// Icons — minimal lucide-style glyphs inline
+// Icons – minimal lucide-style glyphs inline
 // ============================================================
 const Icon = {
   Back: (p) => (
@@ -158,7 +158,7 @@ const Icon = {
 };
 
 // ============================================================
-// Phone frame — custom minimal (dark-first)
+// Phone frame – custom minimal (dark-first)
 // ============================================================
 function PhoneFrame({ children, time = '9:41', dark: _dark }) {
   return (
@@ -184,7 +184,7 @@ function PhoneFrame({ children, time = '9:41', dark: _dark }) {
 }
 
 // ============================================================
-// Screen shell — labeled card in canvas grid
+// Screen shell – labeled card in canvas grid
 // ============================================================
 function ScreenSlot({ num, label, children }) {
   return (

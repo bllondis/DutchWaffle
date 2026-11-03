@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1440">
-<title>Wafel — Dev Handoff</title>
+<title>DutchWaffle – Dev Handoff</title>
 <link rel="stylesheet" href="styles/tokens.css">
 <link rel="stylesheet" href="styles/app.css">
 <style>
@@ -421,7 +421,7 @@
   <div class="doc-head">
     <div>
       <div class="t-eyebrow" style="color: var(--accent);">Developer handoff · v1.0</div>
-      <h1>Wafel <em>Dutch.</em><br/>Specification for development.</h1>
+      <h1>Dutch<em>Waffle.</em><br/>Specification for development.</h1>
     </div>
     <dl class="meta">
       <dt>Platform</dt><dd>iOS · Android</dd>
@@ -447,7 +447,7 @@
   <!-- 01. Screens -->
   <section class="sec" id="screens">
     <h2><span class="n">01</span>Screen inventory</h2>
-    <p class="lead">MVP — 5 primary screens + 4 system screens (Splash, Auth, Profile, Settings) for full navigation. Each screen has a route name (for React Navigation), the stack it lives in, and a v1 priority.</p>
+    <p class="lead">MVP – 5 primary screens + 4 system screens (Splash, Auth, Profile, Settings) for full navigation. Each screen has a route name (for React Navigation), the stack it lives in, and a v1 priority.</p>
 
     <div class="screen-inv">
 
@@ -530,7 +530,7 @@
         <div class="body">
           <div class="id">SCR-03 · /lesson/[id]/study</div>
           <div class="name">Flashcard (Flip)</div>
-          <p>3D-flip card. Front — NL + IPA + audio. Back — translation, context, example. Actions: "Lastig" / "Ken ik".</p>
+          <p>3D-flip card. Front – NL + IPA + audio. Back – translation, context, example. Actions: "Lastig" / "Ken ik".</p>
         </div>
       </div>
 
@@ -583,12 +583,12 @@
 
     </div>
 
-    <h3>System screens (out of MVP — described for completeness)</h3>
+    <h3>System screens (out of MVP – described for completeness)</h3>
     <table class="api">
       <thead><tr><th>ID</th><th>Route</th><th>Stack</th><th>Description</th><th>v1</th></tr></thead>
       <tbody>
         <tr><td class="k">SCR-00</td><td class="t">/splash</td><td class="d">Root</td><td class="d">Logo + auth/data hydration. ≤1.2s.</td><td class="d">✅</td></tr>
-        <tr><td class="k">SCR-A1</td><td class="t">/onboarding</td><td class="d">Auth</td><td class="d">3 slides — pick level, daily goal (min/day), notifications.</td><td class="d">v1.1</td></tr>
+        <tr><td class="k">SCR-A1</td><td class="t">/onboarding</td><td class="d">Auth</td><td class="d">3 slides – pick level, daily goal (min/day), notifications.</td><td class="d">v1.1</td></tr>
         <tr><td class="k">SCR-A2</td><td class="t">/sign-in</td><td class="d">Auth</td><td class="d">Email / Apple / Google.</td><td class="d">v1.1</td></tr>
         <tr><td class="k">SCR-06</td><td class="t">/profile</td><td class="d">Tabs</td><td class="d">Streak history, all learned phrases, settings entry.</td><td class="d">v1.1</td></tr>
         <tr><td class="k">SCR-07</td><td class="t">/settings</td><td class="d">Modal</td><td class="d">Theme, reminders, reverse language, delete progress.</td><td class="d">v1.1</td></tr>
@@ -694,9 +694,9 @@
           <div class="row"><span class="k">size</span><span class="v">'sm' | 'md' | 'lg' = 'md'</span></div>
           <div class="row"><span class="k">leftIcon</span><span class="v">React.ReactNode?</span></div>
           <div class="row"><span class="k">rightIcon</span><span class="v">React.ReactNode?</span></div>
-          <div class="row"><span class="k">loading</span><span class="v">boolean — shows spinner</span></div>
+          <div class="row"><span class="k">loading</span><span class="v">boolean – shows spinner</span></div>
           <div class="row"><span class="k">disabled</span><span class="v">boolean</span></div>
-          <div class="row"><span class="k">block</span><span class="v">boolean — full width</span></div>
+          <div class="row"><span class="k">block</span><span class="v">boolean – full width</span></div>
           <div class="row"><span class="k">onPress</span><span class="v">() => void</span></div>
         </div>
       </div>
@@ -740,7 +740,7 @@
           <div class="progress" style="width:100%;"><i style="width:75%; background: var(--caramel);"></i></div>
         </div>
         <div class="props">
-          <div class="row"><span class="k">value</span><span class="v">number — 0..1</span></div>
+          <div class="row"><span class="k">value</span><span class="v">number – 0..1</span></div>
           <div class="row"><span class="k">tone</span><span class="v">'accent' | 'caramel' = 'accent'</span></div>
           <div class="row"><span class="k">animated</span><span class="v">boolean = true (300ms cubic-bezier)</span></div>
         </div>
@@ -785,7 +785,7 @@
         <div class="props">
           <div class="row"><span class="k">size</span><span class="v">number = 48</span></div>
           <div class="row"><span class="k">mood</span><span class="v">'neutral' | 'happy' | 'focus' = 'neutral'</span></div>
-          <div class="row"><span class="k">animate</span><span class="v">boolean — bob/scale entrance</span></div>
+          <div class="row"><span class="k">animate</span><span class="v">boolean – bob/scale entrance</span></div>
         </div>
       </div>
 
@@ -802,10 +802,10 @@
           <span style="font-family: monospace; font-size:11px; color: var(--fg-mute);">3/8</span>
         </div>
         <div class="props">
-          <div class="row"><span class="k">progress</span><span class="v">number — 0..1</span></div>
+          <div class="row"><span class="k">progress</span><span class="v">number – 0..1</span></div>
           <div class="row"><span class="k">counter</span><span class="v">{ current, total }</span></div>
           <div class="row"><span class="k">onClose</span><span class="v">() => void</span></div>
-          <div class="row"><span class="k">streak?</span><span class="v">number — caramel chip</span></div>
+          <div class="row"><span class="k">streak?</span><span class="v">number – caramel chip</span></div>
         </div>
       </div>
 
@@ -822,9 +822,9 @@
           </div>
         </div>
         <div class="props">
-          <div class="row"><span class="k">level</span><span class="v">Level — id, code, name, tagline</span></div>
+          <div class="row"><span class="k">level</span><span class="v">Level – id, code, name, tagline</span></div>
           <div class="row"><span class="k">progress</span><span class="v">{ completed, total }</span></div>
-          <div class="row"><span class="k">active</span><span class="v">boolean — background + border</span></div>
+          <div class="row"><span class="k">active</span><span class="v">boolean – background + border</span></div>
           <div class="row"><span class="k">onPress</span><span class="v">() => void</span></div>
         </div>
       </div>
@@ -904,7 +904,7 @@
           <div class="row"><span class="k">routes</span><span class="v">'home'|'learn'|'goal'|'me'</span></div>
           <div class="row"><span class="k">active</span><span class="v">RouteName</span></div>
           <div class="row"><span class="k">badges?</span><span class="v">Record&lt;RouteName, number&gt;</span></div>
-          <div class="row"><span class="k">hideOnLessonFlow</span><span class="v">boolean — auto</span></div>
+          <div class="row"><span class="k">hideOnLessonFlow</span><span class="v">boolean – auto</span></div>
         </div>
       </div>
 
@@ -937,7 +937,7 @@
     </div>
 
     <h3>Typography</h3>
-    <p>One family — <strong>Urbanist</strong> (Google Fonts, OFL). Loaded via <code>expo-font</code> in <code>App.tsx</code>. Always use <code>fontVariant: ['tabular-nums']</code> for progress counters and numeric labels.</p>
+    <p>One family – <strong>Urbanist</strong> (Google Fonts, OFL). Loaded via <code>expo-font</code> in <code>App.tsx</code>. Always use <code>fontVariant: ['tabular-nums']</code> for progress counters and numeric labels.</p>
 
     <div style="margin-top: 16px;">
       <div class="type-row">
@@ -1023,7 +1023,7 @@
       </tbody>
     </table>
 
-    <h3>Buttons — variants</h3>
+    <h3>Buttons – variants</h3>
     <table class="api">
       <thead><tr><th>Variant</th><th>BG</th><th>Text</th><th>Border</th><th>States</th></tr></thead>
       <tbody>
@@ -1084,7 +1084,7 @@
 
   <!-- 05. States -->
   <section class="sec" id="states">
-    <h2><span class="n">05</span>States — every screen</h2>
+    <h2><span class="n">05</span>States – every screen</h2>
     <p class="lead">Every screen handles four universal states. Skeleton placeholders for loading; empty/error/success are full screens with illustration.</p>
 
     <h3>SCR-01 Home</h3>
@@ -1110,7 +1110,7 @@
           <div class="skeleton" style="height:40px;"></div>
           <div class="skeleton" style="height:40px;"></div>
         </div>
-        <div class="note">Shimmer skeletons over 1.5s (looped). Exact geometry of final layout — no shift on data arrival.</div>
+        <div class="note">Shimmer skeletons over 1.5s (looped). Exact geometry of final layout – no shift on data arrival.</div>
       </div>
 
       <div class="state-card">
@@ -1162,7 +1162,7 @@
           <div style="font-size:9px; color: var(--fg-mute);">Klaar voor de quiz?</div>
           <button class="demo-btn-primary" style="padding:6px 12px; font-size:10px; height:28px;">Quiz starten</button>
         </div>
-        <div class="note">After the last card — auto-replace to /quiz after 800ms.</div>
+        <div class="note">After the last card – auto-replace to /quiz after 800ms.</div>
       </div>
       <div class="state-card">
         <div class="ttl"><span class="dot" style="background: var(--bad);"></span>Error</div>
@@ -1208,7 +1208,7 @@
         <div class="demo" style="align-items:center; justify-content:center;">
           <div class="spinner"></div>
         </div>
-        <div class="note">Question submit — optimistic UI with analytics fallback.</div>
+        <div class="note">Question submit – optimistic UI with analytics fallback.</div>
       </div>
     </div>
 
@@ -1227,7 +1227,7 @@
   <!-- 06. Tech spec -->
   <section class="sec" id="tech">
     <h2><span class="n">06</span>Technical spec</h2>
-    <p class="lead">React Native + Expo SDK 51 (managed). TypeScript strict. Architecture — feature folders. State — Zustand for UI, TanStack Query for server data, MMKV for persisted prefs.</p>
+    <p class="lead">React Native + Expo SDK 51 (managed). TypeScript strict. Architecture – feature folders. State – Zustand for UI, TanStack Query for server data, MMKV for persisted prefs.</p>
 
     <h3>Stack</h3>
     <div class="stack-grid">
@@ -1242,7 +1242,7 @@
       <div class="stack-tile"><div class="cat">Audio</div><div class="item">expo-av</div><div class="desc">MP3 phrases, ducking, offline cache.</div></div>
       <div class="stack-tile"><div class="cat">Haptics</div><div class="item">expo-haptics</div><div class="desc">success/error/selection patterns.</div></div>
       <div class="stack-tile"><div class="cat">Fonts</div><div class="item">expo-font</div><div class="desc">Urbanist 300–800, preloaded in App.</div></div>
-      <div class="stack-tile"><div class="cat">Analytics</div><div class="item">PostHog RN</div><div class="desc">Events table — see §08.</div></div>
+      <div class="stack-tile"><div class="cat">Analytics</div><div class="item">PostHog RN</div><div class="desc">Events table – see §08.</div></div>
       <div class="stack-tile"><div class="cat">Crash</div><div class="item">Sentry</div><div class="desc">+ source-map upload via EAS hooks.</div></div>
       <div class="stack-tile"><div class="cat">i18n</div><div class="item">i18next + react-i18next</div><div class="desc">NL UI · EN fallback.</div></div>
       <div class="stack-tile"><div class="cat">Tests</div><div class="item">Jest + RTL</div><div class="desc">+ Maestro for e2e flows.</div></div>
@@ -1250,10 +1250,10 @@
 
     <h3>Architecture rules</h3>
     <ul>
-      <li><strong>Feature folders</strong>: <code>src/features/lesson/{components,hooks,api,types}</code> — everything local. Cross-feature deps go through <code>src/shared</code> only.</li>
+      <li><strong>Feature folders</strong>: <code>src/features/lesson/{components,hooks,api,types}</code> – everything local. Cross-feature deps go through <code>src/shared</code> only.</li>
       <li><strong>No styled-components</strong>: <code>StyleSheet.create</code> + theme object via the <code>useTheme()</code> hook (reads from <code>ThemeProvider</code>).</li>
-      <li><strong>Server data — through React Query only</strong>. UI state — through Zustand only. Do not mix.</li>
-      <li><strong>Animations</strong> — Reanimated worklets only, no <code>Animated.timing</code> from RN core. All pressables — <code>Pressable</code> + scale-spring.</li>
+      <li><strong>Server data – through React Query only</strong>. UI state – through Zustand only. Do not mix.</li>
+      <li><strong>Animations</strong> – Reanimated worklets only, no <code>Animated.timing</code> from RN core. All pressables – <code>Pressable</code> + scale-spring.</li>
       <li><strong>Accessibility</strong>: <code>accessibilityLabel</code> is required on every Pressable. Minimum touch target 44×44 dp.</li>
       <li><strong>Performance</strong>: <code>memo</code> for list items; <code>FlashList</code> instead of FlatList for lists with &gt;20 items.</li>
       <li><strong>Errors</strong>: <code>ErrorBoundary</code> at the root + per-screen; <code>onError</code> reports to Sentry with context.</li>
@@ -1272,17 +1272,17 @@
 
     <h3>Accessibility</h3>
     <ul>
-      <li>Contrast — WCAG AA on every text node (fg on bg = 14.2:1; fg-dim on bg = 8.8:1 ✅).</li>
-      <li>Dynamic Type: support iOS Larger Text — typography scales via <code>PixelRatio.getFontScale()</code> clamped to (0.85, 1.4).</li>
+      <li>Contrast – WCAG AA on every text node (fg on bg = 14.2:1; fg-dim on bg = 8.8:1 ✅).</li>
+      <li>Dynamic Type: support iOS Larger Text – typography scales via <code>PixelRatio.getFontScale()</code> clamped to (0.85, 1.4).</li>
       <li>VoiceOver/TalkBack: flashcard announces "Dutch phrase: …; tap to reveal English translation".</li>
       <li>Reduce Motion: disable the flip animation (instant switch) and the wrong-answer letter shake.</li>
       <li>Information-carrying icons get an <code>accessibilityLabel</code>; decorative ones use <code>accessibilityElementsHidden</code>.</li>
     </ul>
 
     <h3>Localization</h3>
-    <p>UI is always in Dutch (part of the immersion methodology). Hints, errors, system copy — also NL with an EN fallback. Tutorial/onboarding has EN and UK variants. File structure: <code>src/i18n/{nl,en,uk}/common.json</code>.</p>
+    <p>UI is always in Dutch (part of the immersion methodology). Hints, errors, system copy – also NL with an EN fallback. Tutorial/onboarding has EN and UK variants. File structure: <code>src/i18n/{nl,en,uk}/common.json</code>.</p>
 
-    <h3>Analytics — events table</h3>
+    <h3>Analytics – events table</h3>
     <table class="api">
       <thead><tr><th>Event</th><th>Properties</th><th>Trigger</th></tr></thead>
       <tbody>
@@ -1298,9 +1298,9 @@
     <h3>Security &amp; privacy</h3>
     <ul>
       <li>No PII in analytics except <code>user_id</code> (UUID). Email/name stays in the auth backend.</li>
-      <li>Token storage — <code>expo-secure-store</code> (Keychain / EncryptedSharedPreferences).</li>
+      <li>Token storage – <code>expo-secure-store</code> (Keychain / EncryptedSharedPreferences).</li>
       <li>API: HTTPS only; pinned certificate in production builds.</li>
-      <li>Right to erase — button in /settings: DELETE /api/v1/me with confirm dialog.</li>
+      <li>Right to erase – button in /settings: DELETE /api/v1/me with confirm dialog.</li>
     </ul>
   </section>
 
@@ -1336,7 +1336,7 @@
     │   │   └── <span class="file">ContinueCard.tsx</span>
     │   ├── <span class="dir">lesson/</span>
     │   │   ├── <span class="file">LessonIntroScreen.tsx</span>
-    │   │   ├── <span class="file key">FlashcardScreen.tsx</span>  <span class="c"># Flip variant — fully implemented</span>
+    │   │   ├── <span class="file key">FlashcardScreen.tsx</span>  <span class="c"># Flip variant – fully implemented</span>
     │   │   ├── <span class="file">QuizScreen.tsx</span>
     │   │   ├── <span class="file">CompleteScreen.tsx</span>
     │   │   ├── <span class="dir">components/</span>
@@ -1377,7 +1377,7 @@
     </div>
 
     <h3>README for developer / Claude Code</h3>
-    <pre><span class="c"># Wafel — Dutch phrase app</span>
+    <pre><span class="c"># DutchWaffle – Dutch phrase app</span>
 
 <span class="c">## Quick start</span>
 pnpm install
@@ -1386,10 +1386,10 @@ pnpm ios            <span class="c"># Simulator (Xcode required)</span>
 pnpm android        <span class="c"># Emulator</span>
 
 <span class="c">## Architecture</span>
-- features/ — domain folders, nothing re-exported outside
-- shared/   — atomic utilities only, no business logic
-- theme/    — tokens as TS const + ThemeProvider
-- navigation/ — RootStack with all flows; TabNavigator inside
+- features/ – domain folders, nothing re-exported outside
+- shared/   – atomic utilities only, no business logic
+- theme/    – tokens as TS const + ThemeProvider
+- navigation/ – RootStack with all flows; TabNavigator inside
 
 <span class="c">## Adding a screen</span>
 1. create <span class="t">features/foo/FooScreen.tsx</span>
@@ -1397,15 +1397,15 @@ pnpm android        <span class="c"># Emulator</span>
 3. type the params in <span class="t">navigation/types.ts</span>
 
 <span class="c">## Design system rules</span>
-- No raw colors — use <span class="v">theme.colors.*</span> only
-- No magic numbers — use <span class="v">theme.spacing.*</span> only
-- Font everywhere — Urbanist (preloaded in App.tsx)
-- Buttons — through <span class="t">&lt;Button&gt;</span> only; do not write a bespoke Pressable with a background fill</pre>
+- No raw colors – use <span class="v">theme.colors.*</span> only
+- No magic numbers – use <span class="v">theme.spacing.*</span> only
+- Font everywhere – Urbanist (preloaded in App.tsx)
+- Buttons – through <span class="t">&lt;Button&gt;</span> only; do not write a bespoke Pressable with a background fill</pre>
 
     <h3>CLAUDE.md (for AI pair programming)</h3>
-    <pre><span class="c"># Wafel — Claude Code instructions</span>
+    <pre><span class="c"># DutchWaffle – Claude Code instructions</span>
 
-You are working on Wafel, a Dutch phrase-learning app (RN+Expo).
+You are working on DutchWaffle, a Dutch phrase-learning app (RN+Expo).
 
 <span class="c">## Hard rules</span>
 - Always TypeScript strict. Use <span class="v">type</span> over <span class="v">interface</span> for props.
@@ -1428,7 +1428,7 @@ You are working on Wafel, a Dutch phrase-learning app (RN+Expo).
 - Don't use <span class="v">react-native-paper</span>, <span class="v">NativeBase</span>, <span class="v">styled-components</span>.
 - Don't reach for new libs without ADR in <span class="t">/docs/adr/</span>.</pre>
 
-    <h3>Key code — <code>theme/tokens.ts</code></h3>
+    <h3>Key code – <code>theme/tokens.ts</code></h3>
     <pre><span class="k">export const</span> <span class="v">tokens</span> = {
   <span class="v">colors</span>: {
     <span class="v">bg</span>:        <span class="s">'#0B0F0E'</span>,
@@ -1475,7 +1475,7 @@ You are working on Wafel, a Dutch phrase-learning app (RN+Expo).
 
 <span class="k">export type</span> <span class="v">Tokens</span> = <span class="k">typeof</span> <span class="v">tokens</span>;</pre>
 
-    <h3>Key code — <code>FlipCard.tsx</code></h3>
+    <h3>Key code – <code>FlipCard.tsx</code></h3>
     <pre><span class="k">import</span> <span class="v">Animated</span>, { <span class="v">useSharedValue</span>, <span class="v">useAnimatedStyle</span>, <span class="v">withTiming</span>, <span class="v">Easing</span> } <span class="k">from</span> <span class="s">'react-native-reanimated'</span>;
 <span class="k">import</span> { <span class="v">useTheme</span> } <span class="k">from</span> <span class="s">'@/theme/useTheme'</span>;
 
@@ -1514,7 +1514,7 @@ You are working on Wafel, a Dutch phrase-learning app (RN+Expo).
   <!-- 08. Data / API -->
   <section class="sec" id="api">
     <h2><span class="n">08</span>Data &amp; API</h2>
-    <p class="lead">Content-first, minimal backend. v1 — static JSON bundled in the app + user progress through the API. Audio — static MP3 on CDN.</p>
+    <p class="lead">Content-first, minimal backend. v1 – static JSON bundled in the app + user progress through the API. Audio – static MP3 on CDN.</p>
 
     <h3>Entities</h3>
     <pre><span class="k">type</span> <span class="v">Level</span> = {
@@ -1569,7 +1569,7 @@ You are working on Wafel, a Dutch phrase-learning app (RN+Expo).
 
     <h3>Offline-first strategy</h3>
     <ul>
-      <li>Seed content (lessons + phrases JSON) is bundled into the APK/IPA — the app <strong>works offline</strong>.</li>
+      <li>Seed content (lessons + phrases JSON) is bundled into the APK/IPA – the app <strong>works offline</strong>.</li>
       <li>Progress is saved to MMKV immediately; POST to backend happens in the background via a mutation queue (TanStack Query persister).</li>
       <li>Audio: on entering Intro, pre-fetch all lesson MP3s → cached in <code>FileSystem.documentDirectory + 'audio/'</code>.</li>
       <li>Conflict resolution: latest <code>updatedAt</code> wins; on tied timestamps server wins (rare).</li>
@@ -1601,14 +1601,14 @@ You are working on Wafel, a Dutch phrase-learning app (RN+Expo).
   </section>
 
   <footer class="foot">
-    <div>Wafel · Dutch phrase learning · Handoff v1.0 · 22 May 2026</div>
+    <div>DutchWaffle · Dutch phrase learning · Handoff v1.0 · 22 May 2026</div>
     <div><a href="Dutch Phrases App.html">← Back to prototype</a></div>
   </footer>
 
 </div>
 
 <script>
-// Smooth scroll for TOC — manual (no scrollIntoView)
+// Smooth scroll for TOC – manual (no scrollIntoView)
 document.querySelectorAll('.toc a').forEach(a => {
   a.addEventListener('click', e => {
     const id = a.getAttribute('href').slice(1);

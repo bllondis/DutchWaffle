@@ -9,7 +9,7 @@ const PHONE_WIDTH = 430;
 const WIDE_BREAKPOINT = 600;
 
 /**
- * Wafel is a mobile app. In the browser preview on a desktop screen, keep it in a
+ * DutchWaffle is a mobile app. In the browser preview on a desktop screen, keep it in a
  * phone-width column in the centre instead of stretching it across the window.
  * On iOS and Android it renders its children unchanged; in a narrow browser window
  * the column simply fills the screen.

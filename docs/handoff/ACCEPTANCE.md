@@ -20,7 +20,7 @@ Definition of done for each screen. Reviewer (PM or QA) walks through this check
 
 **Interactions**
 - ✅ Tap Continue → navigates to LessonIntro of in-progress lesson
-- ✅ Tap level row → (v1.1: filtered list) — v1.0: navigates to first lesson of that level
+- ✅ Tap level row → (v1.1: filtered list) – v1.0: navigates to first lesson of that level
 - ✅ Tab bar Home tab is highlighted (accent color)
 
 **States**
@@ -130,7 +130,7 @@ Definition of done for each screen. Reviewer (PM or QA) walks through this check
 - ✅ Confetti/burst visual fires on mount (accent glow radial gradient)
 
 **Side effects (on mount)**
-- ✅ Streak +1 (if eligible — once per UTC day)
+- ✅ Streak +1 (if eligible – once per UTC day)
 - ✅ Lesson marked complete in MMKV
 - ✅ Analytics: `lesson_completed` event fired with score
 

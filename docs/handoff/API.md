@@ -56,7 +56,7 @@ type UserProgress = {
 
 See `src/data/content.ts` (one B1+ lesson, "Je mening nuanceren") and `src/data/mock.ts` (additional lessons for navigation testing).
 
-## REST API (v1.1+ — when backend exists)
+## REST API (v1.1+ – when backend exists)
 
 Base: `https://api.wafel.app/v1`
 
